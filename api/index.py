@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 import requests
 import json
 import os
 import anthropic
 
-app = Flask(__name__, static_folder="../public", static_url_path="")
+app = Flask(__name__)
 
 LUSHA_BASE = "https://api.lusha.com"
 LUSHA_KEY = os.environ.get("LUSHA_API_KEY", "")
@@ -116,7 +116,13 @@ def extract_phone(enriched):
 
 @app.route("/")
 def index():
-    return send_from_directory("../public", "index.html")
+    html_path = os.path.join(os.path.dirname(__file__), "../public/index.html")
+    with open(html_path) as f:
+        return f.read(), 200, {"Content-Type": "text/html"}
+
+@app.route("/api/health")
+def health():
+    return jsonify({"status": "ok", "anthropic_key": bool(ANTHROPIC_KEY), "lusha_key": bool(LUSHA_KEY)})
 
 @app.route("/api/parse", methods=["POST"])
 def parse():
@@ -185,10 +191,6 @@ def search():
                 count += 1
         if len(results) >= max_contacts: break
     return jsonify({"total": len(results), "contacts": results[:max_contacts]})
-
-@app.route("/api/health")
-def health():
-    return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
