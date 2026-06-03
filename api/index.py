@@ -10,6 +10,8 @@ LUSHA_BASE = "https://api.lusha.com"
 LUSHA_KEY = os.environ.get("LUSHA_API_KEY", "")
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
+HTML = open(os.path.join(os.path.dirname(__file__), "index.html")).read() if os.path.exists(os.path.join(os.path.dirname(__file__), "index.html")) else "<h1>Loading...</h1>"
+
 INDUSTRY_TAXONOMY = """
 Lusha industry taxonomy:
 MAIN INDUSTRIES (mainIndustriesIds):
@@ -116,7 +118,7 @@ def extract_phone(enriched):
 
 @app.route("/")
 def index():
-    html_path = os.path.join(os.path.dirname(__file__), "../public/index.html")
+    html_path = os.path.join(os.path.dirname(__file__), "index.html")
     with open(html_path) as f:
         return f.read(), 200, {"Content-Type": "text/html"}
 
