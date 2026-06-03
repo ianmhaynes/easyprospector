@@ -1,0 +1,194 @@
+from flask import Flask, request, jsonify, send_from_directory
+import requests
+import json
+import os
+import anthropic
+
+app = Flask(__name__, static_folder="../public", static_url_path="")
+
+LUSHA_BASE = "https://api.lusha.com"
+LUSHA_KEY = os.environ.get("LUSHA_API_KEY", "")
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+
+INDUSTRY_TAXONOMY = """
+Lusha industry taxonomy:
+MAIN INDUSTRIES (mainIndustriesIds):
+1=Hospitality, 2=Agriculture, 3=Construction, 4=Manufacturing,
+5=Community & Nonprofit, 6=Education, 7=Entertainment, 8=Finance,
+9=Government, 10=Healthcare, 11=Legal, 12=Media & Communications,
+13=Professional Services, 14=Real Estate, 15=Technology,
+16=Retail & Wholesale, 17=Transportation & Logistics, 18=Utilities & Energy
+
+SUB INDUSTRIES (subIndustriesIds):
+Hotels & Accommodation Services=3, Restaurants=2, Food & Beverage Services=1,
+Events Services=5, Travel & Reservation Services=11, Insurance=44,
+Motor Vehicles=87, Motor Vehicle Parts Dealers=146, Sports=32,
+Entertainment Providers=28, General Merchandise Retail=115,
+Shopping Centers=116, Hospitals & Health Systems=55, Aged Care=56,
+Private Hospitals=57, Medical Practices=58, Pharmaceuticals=60,
+Banks=38, Financial Planning=41, Accounting=42, Law Firms=64,
+Software Development=80, Telecommunications=81, Airlines=90,
+Freight & Logistics=91, Mining=95, Oil & Gas=96, Universities=24
+"""
+
+def parse_natural_language(query, country):
+    client = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
+    prompt = f"""Parse this B2B prospecting request into Lusha API filter parameters.
+
+User request: "{query}"
+Country: {country}
+
+{INDUSTRY_TAXONOMY}
+
+Return ONLY valid JSON:
+{{
+  "jobTitles": ["title1", "title2"],
+  "mainIndustriesIds": [],
+  "subIndustriesIds": [],
+  "explanation": "one sentence summary"
+}}
+
+Include both abbreviated and full title versions (e.g. "CMO" AND "Chief Marketing Officer").
+Use subIndustriesIds when specific, mainIndustriesIds for broad categories."""
+
+    response = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=500,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    text = response.content[0].text.strip()
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.startswith("json"): text = text[4:]
+    return json.loads(text.strip())
+
+def lusha_search(api_key, job_title, industry_filter, country, page=0):
+    company_include = {}
+    if industry_filter.get("mainIndustriesIds"):
+        company_include["mainIndustriesIds"] = industry_filter["mainIndustriesIds"]
+    if industry_filter.get("subIndustriesIds"):
+        company_include["subIndustriesIds"] = industry_filter["subIndustriesIds"]
+    payload = {
+        "pages": {"page": page, "size": 10},
+        "filters": {
+            "contacts": {"include": {
+                "jobTitles": [job_title],
+                "locations": [{"country": country}],
+            }},
+        }
+    }
+    if company_include:
+        payload["filters"]["companies"] = {"include": company_include}
+    r = requests.post(
+        f"{LUSHA_BASE}/prospecting/contact/search",
+        headers={"api_key": api_key, "Content-Type": "application/json"},
+        json=payload, timeout=30
+    )
+    if r.status_code in (200, 201):
+        return r.json()
+    return None
+
+def lusha_enrich(api_key, contact_id):
+    r = requests.post(
+        f"{LUSHA_BASE}/prospecting/contact/enrich",
+        headers={"api_key": api_key, "Content-Type": "application/json"},
+        json={"contactId": contact_id}, timeout=30
+    )
+    if r.status_code in (200, 201):
+        return r.json()
+    return {}
+
+def extract_email(enriched):
+    emails = enriched.get("emails", [])
+    for e in emails:
+        if isinstance(e, dict) and e.get("type") == "work":
+            return e.get("email", "")
+    if emails:
+        e = emails[0]
+        return e.get("email", e) if isinstance(e, dict) else str(e)
+    return ""
+
+def extract_phone(enriched):
+    phones = enriched.get("phones", [])
+    for p in phones:
+        if isinstance(p, dict): return p.get("phone", "")
+    return phones[0] if phones else ""
+
+@app.route("/")
+def index():
+    return send_from_directory("../public", "index.html")
+
+@app.route("/api/parse", methods=["POST"])
+def parse():
+    data = request.json
+    query = data.get("query", "")
+    country = data.get("country", "Australia")
+    if not query:
+        return jsonify({"error": "No query provided"}), 400
+    try:
+        parsed = parse_natural_language(query, country)
+        return jsonify(parsed)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/search", methods=["POST"])
+def search():
+    data = request.json
+    api_key = request.headers.get("X-Lusha-Key") or LUSHA_KEY
+    if not api_key:
+        return jsonify({"error": "No Lusha API key provided"}), 401
+    job_titles = data.get("jobTitles", [])
+    industry_filter = {
+        "mainIndustriesIds": data.get("mainIndustriesIds", []),
+        "subIndustriesIds": data.get("subIndustriesIds", []),
+    }
+    country = data.get("country", "Australia")
+    max_contacts = min(int(data.get("maxContacts", 50)), 500)
+    want_email = data.get("wantEmail", True)
+    want_phone = data.get("wantPhone", False)
+    if not job_titles:
+        return jsonify({"error": "No job titles provided"}), 400
+    seen = set()
+    results = []
+    max_per_title = max(10, max_contacts // len(job_titles))
+    for title in job_titles:
+        count = 0
+        for page in range(max(1, max_per_title // 10)):
+            if count >= max_per_title: break
+            result = lusha_search(api_key, title, industry_filter, country, page)
+            if not result: break
+            contacts = result.get("data", [])
+            if not contacts: break
+            for c in contacts:
+                if count >= max_per_title: break
+                cid = c.get("contactId") or str(c.get("personId", ""))
+                if not cid or cid in seen: continue
+                seen.add(cid)
+                name = c.get("name", "")
+                email = ""
+                phone = ""
+                if want_email or want_phone:
+                    enriched = lusha_enrich(api_key, cid)
+                    if want_email: email = extract_email(enriched)
+                    if want_phone: phone = extract_phone(enriched)
+                results.append({
+                    "id": cid, "name": name,
+                    "title": c.get("jobTitle", title),
+                    "company": c.get("companyName", ""),
+                    "domain": c.get("fqdn", ""),
+                    "email": email, "phone": phone,
+                    "linkedin": c.get("linkedinUrl", ""),
+                    "city": c.get("city", ""),
+                    "country": country,
+                    "sector": data.get("sectorLabel", "")
+                })
+                count += 1
+        if len(results) >= max_contacts: break
+    return jsonify({"total": len(results), "contacts": results[:max_contacts]})
+
+@app.route("/api/health")
+def health():
+    return jsonify({"status": "ok"})
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
