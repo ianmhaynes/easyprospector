@@ -129,6 +129,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
     <span class="nav-title">EasyProspector</span>
   </div>
   <div class="nav-right">
+    <button onclick="localStorage.removeItem('seen_ids');alert('Seen contacts reset')" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:Inter,sans-serif;color:var(--text-secondary)">Reset seen</button>
     <div class="key-indicator" onclick="showKeyModal()">
       <div class="key-dot" id="key-dot"></div>
       <span id="key-label">Add API key</span>
@@ -482,8 +483,15 @@ async function runSearch(){
     });
     const data=await r.json();
     allContacts=data.contacts||[];
+    const seenIds=JSON.parse(localStorage.getItem('seen_ids')||'[]');
+    const seenSet=new Set(seenIds);
+    const newContacts=allContacts.filter(c=>!seenSet.has(c.id));
+    const skipped=allContacts.length-newContacts.length;
+    allContacts=newContacts;
+    newContacts.forEach(c=>seenSet.add(c.id));
+    localStorage.setItem('seen_ids',JSON.stringify([...seenSet]));
     document.getElementById('loading-wrap').style.display='none';
-    document.getElementById('results-title').textContent=`${allContacts.length} contacts found`;
+    document.getElementById('results-title').textContent=`${allContacts.length} contacts found${skipped>0?' ('+skipped+' already seen)':''}`;
 
     const list=document.getElementById('results-list');
 
