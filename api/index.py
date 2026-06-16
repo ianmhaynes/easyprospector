@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import anthropic
+from urllib.parse import urlencode
 
 app = Flask(__name__)
 
@@ -46,25 +47,26 @@ Rules:
 
 
 def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10):
-    # Build query string params — Apollo expects repeated array params in URL
-    params = []
+    # Apollo requires array params in URL query string, not JSON body
+    parts = []
     for title in job_titles:
-        params.append(("person_titles[]", title))
+        parts.append(f"person_titles[]={requests.utils.quote(title)}")
     if country:
-        params.append(("person_locations[]", country))
+        parts.append(f"person_locations[]={requests.utils.quote(country)}")
     if industry_keywords:
-        params.append(("q_keywords", " ".join(industry_keywords)))
-    params.append(("per_page", per_page))
-    params.append(("page", page))
+        parts.append(f"q_keywords={requests.utils.quote(' '.join(industry_keywords))}")
+    parts.append(f"per_page={per_page}")
+    parts.append(f"page={page}")
+
+    url = f"{APOLLO_BASE}/mixed_people/api_search?{'&'.join(parts)}"
 
     r = requests.post(
-        f"{APOLLO_BASE}/mixed_people/api_search",
+        url,
         headers={
             "x-api-key": api_key,
             "Content-Type": "application/json",
             "Cache-Control": "no-cache",
         },
-        params=params,
         timeout=30
     )
     if r.status_code == 200:
@@ -72,7 +74,7 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
     return None
 
 
-def apollo_enrich(api_key, person_id, want_email=True, want_phone=False):
+def apollo_enrich(api_key, person_id, want_phone=False):
     payload = {
         "id": person_id,
         "reveal_personal_emails": False,
@@ -184,30 +186,27 @@ def search():
                 continue
             seen.add(pid)
 
-            name = f"{p.get('first_name', '')} {p.get('last_name', '')}".strip()
-            email = ""
-            phone = ""
+            # Always enrich to get full name, linkedin, city, email, phone
+            enriched = apollo_enrich(api_key, pid, want_phone=want_phone)
 
-            if want_email or want_phone:
-                enriched = apollo_enrich(api_key, pid, want_email=want_email, want_phone=want_phone)
-                if want_email:
-                    email = extract_email(enriched)
-                if want_phone:
-                    phone = extract_phone(enriched)
+            first = enriched.get("first_name", "") or p.get("first_name", "")
+            last = enriched.get("last_name", "")
+            name = f"{first} {last}".strip()
 
-            linkedin = p.get("linkedin_url", "")
+            email = extract_email(enriched) if want_email else ""
+            phone = extract_phone(enriched) if want_phone else ""
 
             results.append({
                 "id": pid,
                 "name": name,
-                "title": p.get("title", ""),
-                "company": p.get("organization_name", "") or (p.get("organization") or {}).get("name", ""),
-                "domain": (p.get("organization") or {}).get("website_url", ""),
+                "title": enriched.get("title", "") or p.get("title", ""),
+                "company": enriched.get("organization_name", "") or (enriched.get("organization") or {}).get("name", "") or p.get("organization", {}).get("name", ""),
+                "domain": (enriched.get("organization") or {}).get("website_url", ""),
                 "email": email,
                 "phone": phone,
-                "linkedin": linkedin,
-                "city": p.get("city", ""),
-                "country": p.get("country", country),
+                "linkedin": enriched.get("linkedin_url", ""),
+                "city": enriched.get("city", ""),
+                "country": enriched.get("country", country),
                 "sector": sector_label,
             })
 
