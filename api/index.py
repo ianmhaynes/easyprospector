@@ -189,8 +189,9 @@ def search():
                 continue
             seen.add(pid)
 
-            # Only enrich if email/phone needed — avoids timeout on large searches
-            enriched = apollo_enrich(api_key, pid, want_phone=want_phone) if (want_email or want_phone) else {}
+            # Only enrich first 20 contacts to avoid Vercel timeout (each call ~400ms)
+            should_enrich = (want_email or want_phone) and len(results) < 20
+            enriched = apollo_enrich(api_key, pid, want_phone=want_phone) if should_enrich else {}
 
             first = enriched.get("first_name", "") or p.get("first_name", "")
             last = enriched.get("last_name", "")
