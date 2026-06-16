@@ -201,5 +201,9 @@ if __name__ == "__main__":
 def debug_enrich():
     data = request.json
     contact_id = data.get("contactId")
-    result = lusha_enrich(LUSHA_KEY, contact_id)
-    return jsonify(result)
+    r = requests.post(
+        f"{LUSHA_BASE}/prospecting/contact/enrich",
+        headers={"api_key": LUSHA_KEY, "Content-Type": "application/json"},
+        json={"contactId": contact_id}, timeout=30
+    )
+    return jsonify({"status": r.status_code, "body": r.json()})
