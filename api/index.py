@@ -54,7 +54,7 @@ Include both abbreviated and full title versions (e.g. "CMO" AND "Chief Marketin
 Use subIndustriesIds when specific, mainIndustriesIds for broad categories."""
 
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}]
     )
