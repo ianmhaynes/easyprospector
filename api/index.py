@@ -200,10 +200,14 @@ if __name__ == "__main__":
 @app.route("/api/debug_enrich", methods=["POST"])
 def debug_enrich():
     data = request.json
-    contact_id = data.get("contactId")
-    r = requests.post(
-        f"{LUSHA_BASE}/prospecting/contact/enrich",
-        headers={"api_key": LUSHA_KEY, "Content-Type": "application/json"},
-        json={"contactId": contact_id}, timeout=30
-    )
-    return jsonify({"status": r.status_code, "body": r.json()})
+    contact_id = data.get("id")
+    for field in ["id", "personId", "contactId"]:
+        r = requests.post(
+            f"{LUSHA_BASE}/prospecting/contact/enrich",
+            headers={"api_key": LUSHA_KEY, "Content-Type": "application/json"},
+            json={field: contact_id}, timeout=30
+        )
+        result = r.json()
+        if r.status_code in (200, 201):
+            return jsonify({"status": r.status_code, "field_used": field, "body": result})
+    return jsonify({"status": r.status_code, "body": result})
