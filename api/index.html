@@ -256,6 +256,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
     <div class="card">
       <div class="settings-row">
         <div class="field">
+          <label>City (optional)</label>
+          <input type="text" id="city" placeholder="e.g. Sydney"/>
+        </div>
+        <div class="field">
           <label>Country</label>
           <select id="country">
             <option value="Australia" selected>Australia</option>
@@ -514,6 +518,7 @@ async function runSearch(){
   if(!jobTitles.length){alert('Please select at least one job title.');return;}
 
   const country=document.getElementById('country').value;
+  const city=document.getElementById('city').value.trim();
   const max=parseInt(document.getElementById('max-contacts').value)||50;
   const level=document.getElementById('data-level').value;
 
@@ -530,7 +535,7 @@ async function runSearch(){
       method:'POST',
       headers:{'Content-Type':'application/json','X-Apollo-Key':key},
       body:JSON.stringify({
-        jobTitles,industryKeywords,country,
+        jobTitles,industryKeywords,country,city,
         maxContacts:max,
         wantEmail:level.includes('email'),
         wantPhone:level.includes('phone'),

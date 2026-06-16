@@ -46,7 +46,7 @@ Rules:
     return json.loads(text.strip())
 
 
-def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10):
+def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10, city=''):
     # Apollo requires array params in URL query string, not JSON body
     parts = []
     for title in job_titles:
@@ -169,7 +169,7 @@ def search():
     page = 1
 
     while len(results) < max_contacts:
-        result = apollo_search(api_key, job_titles, industry_keywords, country, page=page, per_page=per_page)
+        result = apollo_search(api_key, job_titles, industry_keywords, country, page=page, per_page=per_page, city=city)
         if not result:
             break
 
