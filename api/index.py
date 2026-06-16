@@ -71,7 +71,7 @@ def lusha_search(api_key, job_title, industry_filter, country, page=0):
     if industry_filter.get("subIndustriesIds"):
         company_include["subIndustriesIds"] = industry_filter["subIndustriesIds"]
     payload = {
-        "pages": {"page": page, "size": 10},
+        "pagination": {"page": page, "size": 10},
         "filters": {
             "contacts": {"include": {
                 "jobTitles": [job_title],
@@ -82,7 +82,7 @@ def lusha_search(api_key, job_title, industry_filter, country, page=0):
     if company_include:
         payload["filters"]["companies"] = {"include": company_include}
     r = requests.post(
-        f"{LUSHA_BASE}/prospecting/contact/search",
+        f"{LUSHA_BASE}/v3/contacts/prospecting",
         headers={"api_key": api_key, "Content-Type": "application/json"},
         json=payload, timeout=30
     )
@@ -170,7 +170,7 @@ def search():
             if not contacts: break
             for c in contacts:
                 if count >= max_per_title: break
-                cid = c.get("contactId") or str(c.get("personId", ""))
+                cid = c.get("id") or c.get("contactId") or str(c.get("personId", ""))
                 if not cid or cid in seen: continue
                 seen.add(cid)
                 name = c.get("name", "")
@@ -182,12 +182,12 @@ def search():
                     if want_phone: phone = extract_phone(enriched)
                 results.append({
                     "id": cid, "name": name,
-                    "title": c.get("jobTitle", title),
-                    "company": c.get("companyName", ""),
-                    "domain": c.get("fqdn", ""),
+                    "title": c.get("jobTitle", {}).get("title", title) if isinstance(c.get("jobTitle"), dict) else c.get("jobTitle", title),
+                    "company": c.get("company", {}).get("name", c.get("companyName", "")),
+                    "domain": c.get("company", {}).get("domain", c.get("fqdn", "")),
                     "email": email, "phone": phone,
-                    "linkedin": c.get("linkedinUrl", ""),
-                    "city": c.get("city", ""),
+                    "linkedin": c.get("socialLinks", {}).get("linkedin", c.get("linkedinUrl", "")),
+                    "city": c.get("location", {}).get("city", c.get("city", "")),
                     "country": country,
                     "sector": data.get("sectorLabel", "")
                 })
