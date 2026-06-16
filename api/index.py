@@ -92,12 +92,13 @@ def lusha_search(api_key, job_title, industry_filter, country, page=0):
 
 def lusha_enrich(api_key, contact_id):
     r = requests.post(
-        f"{LUSHA_BASE}/prospecting/contact/enrich",
+        f"{LUSHA_BASE}/v3/contacts/enrich",
         headers={"api_key": api_key, "Content-Type": "application/json"},
-        json={"contactId": contact_id}, timeout=30
+        json={"ids": [contact_id], "reveal": ["emails", "phones"]}, timeout=30
     )
     if r.status_code in (200, 201):
-        return r.json()
+        results = r.json().get("results", [])
+        return results[0] if results else {}
     return {}
 
 def extract_email(enriched):
