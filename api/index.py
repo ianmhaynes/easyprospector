@@ -56,8 +56,7 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
             parts.append(f"person_locations[]={requests.utils.quote(city + ", " + country)}")
         else:
             parts.append(f"person_locations[]={requests.utils.quote(country)}")
-    if industry_keywords:
-        parts.append(f"q_keywords={requests.utils.quote(industry_keywords[0])}")
+    # q_keywords removed - titles + location filter is sufficient
     parts.append(f"per_page={per_page}")
     parts.append(f"page={page}")
 
