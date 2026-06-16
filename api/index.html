@@ -2,40 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>EasyProspector — Find decision-makers instantly</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>EasyProspector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--navy:#0A1628;--blue:#1B5FE8;--blue-hover:#1449C4;--blue-light:#EEF3FF;--green:#12B76A;--green-light:#ECFDF3;--amber:#F79009;--amber-light:#FEF0C7;--border:#E4E7EC;--text:#101828;--muted:#667085;--surface:#F9FAFB;--white:#FFFFFF;--radius:12px;--shadow:0 1px 3px rgba(16,24,40,.1)}
-body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--text);min-height:100vh}
-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+:root{
+  --blue:#1B5FE8;--blue-hover:#1450CC;--blue-light:#EEF3FF;
+  --green:#027A48;--green-light:#ECFDF3;
+  --border:#E4E7EC;--text:#101828;--text-secondary:#475467;--muted:#98A2B3;
+  --white:#fff;--bg:#F9FAFB;--radius:12px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .nav-brand{display:flex;align-items:center;gap:10px}
-.nav-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.nav-logo svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round}
-.brand-text{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;color:var(--navy)}
-.brand-text span{color:var(--blue)}
+.nav-logo{width:30px;height:30px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+.nav-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
 .nav-right{display:flex;align-items:center;gap:12px}
-.api-badge{font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;display:flex;align-items:center;gap:6px}
-#key-dot{width:8px;height:8px;border-radius:50%;background:#D0D5DD;display:inline-block}
-#key-dot.ok{background:var(--green)}
-.settings-btn{padding:8px 16px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--white);cursor:pointer}
-.container{max-width:900px;margin:0 auto;padding:40px 24px}
-.hero{text-align:center;margin-bottom:40px}
-.hero h1{font-family:'Sora',sans-serif;font-size:36px;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:12px}
-.hero h1 em{font-style:normal;color:var(--blue)}
-.hero p{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto}
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
-.card-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:16px}
-.nl-wrap{position:relative;margin-bottom:12px}
-textarea.nl-input{width:100%;padding:16px 20px;font-size:15px;font-family:'Inter',sans-serif;border:1.5px solid var(--border);border-radius:var(--radius);background:var(--white);color:var(--text);resize:none;height:90px;transition:border .15s;line-height:1.5}
-textarea.nl-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(27,95,232,.08)}
-textarea.nl-input::placeholder{color:#98A2B3}
-.nl-parse-btn{position:absolute;bottom:12px;right:12px;padding:8px 18px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
-.nl-parse-btn:hover{background:var(--blue-hover)}
+.key-indicator{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
+.key-dot{width:8px;height:8px;border-radius:50%;background:#D0D5DD}
+.key-dot.ok{background:#12B76A}
+.main{max-width:680px;margin:0 auto;padding:32px 16px 80px}
+.hero{text-align:center;margin-bottom:32px}
+.hero h1{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px}
+.hero p{font-size:15px;color:var(--text-secondary);line-height:1.6}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+.card-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.mode-tabs{display:flex;gap:8px;margin-bottom:16px}
+.nl-row{display:flex;gap:8px}
+.nl-input{flex:1;height:44px;border:1px solid var(--border);border-radius:8px;padding:0 14px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text)}
+.nl-input:focus{outline:none;border-color:var(--blue)}
+.parse-btn{height:44px;padding:0 18px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.parse-btn:hover{background:var(--blue-hover)}
 .nl-examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.nl-example{font-size:12px;color:var(--blue);background:var(--blue-light);border:none;border-radius:100px;padding:4px 12px;cursor:pointer}
+.nl-example{font-size:12px;color:var(--blue);background:var(--blue-light);border:none;border-radius:100px;padding:4px 12px;cursor:pointer;font-family:'Inter',sans-serif}
 .nl-example:hover{background:#dce8ff}
+
+/* Parsed box */
 .parsed-box{background:var(--blue-light);border:1px solid #C7D7FC;border-radius:10px;padding:16px;margin-top:16px;display:none}
 .parsed-explanation{font-size:14px;color:#1E40AF;margin-bottom:12px;font-weight:500}
 .parsed-tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -43,44 +49,71 @@ textarea.nl-input::placeholder{color:#98A2B3}
 .tag-title{background:#EEF3FF;color:#1B5FE8}
 .tag-industry{background:#ECFDF3;color:#027A48}
 .edit-link{font-size:12px;color:var(--blue);cursor:pointer;margin-top:10px;display:inline-block;text-decoration:underline}
+
+/* Advanced filters */
+.adv-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--blue);cursor:pointer;margin-top:12px;user-select:none;background:none;border:none;padding:0;font-family:'Inter',sans-serif}
+.adv-toggle:hover{opacity:.8}
+.adv-arrow{transition:transform .2s;display:inline-block}
+.adv-arrow.open{transform:rotate(90deg)}
+.adv-panel{display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.adv-panel.open{display:block}
+.adv-section{margin-bottom:16px}
+.adv-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.adv-chips{display:flex;flex-wrap:wrap;gap:6px}
+.adv-chip{padding:5px 12px;border:1px solid var(--border);border-radius:100px;font-size:12px;cursor:pointer;background:var(--white);color:var(--text-secondary);transition:all .12s;user-select:none;font-family:'Inter',sans-serif}
+.adv-chip:hover{border-color:#93AAFD;color:var(--blue)}
+.adv-chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.adv-text{width:100%;height:36px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text)}
+.adv-text:focus{outline:none;border-color:var(--blue)}
+.adv-row{display:flex;gap:8px}
+.adv-row .adv-text{flex:1}
+
+/* Manual section */
 .or-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
 .or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .toggle-group{display:flex;flex-wrap:wrap;gap:7px}
 .toggle{padding:7px 14px;border:1px solid var(--border);border-radius:100px;font-size:13px;cursor:pointer;background:var(--white);color:var(--muted);transition:all .12s;user-select:none}
 .toggle:hover{border-color:#93AAFD;color:var(--blue)}
-.toggle.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.settings-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:20px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:12px;font-weight:500;color:var(--muted)}
-.field select,.field input[type=number]{width:100%;height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:14px;font-family:'Inter',sans-serif;background:var(--white);color:var(--text);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-.field select:focus,.field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,95,232,.08)}
-.estimate-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:20px}
-.est-num{font-family:'Sora',sans-serif;font-size:28px;font-weight:600;color:var(--blue)}
-.est-label{font-size:14px;color:var(--muted);margin-left:8px}
-.est-credits{font-size:12px;color:var(--amber);background:var(--amber-light);border-radius:6px;padding:4px 10px}
-.run-btn{width:100%;height:52px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;transition:background .15s}
+.toggle.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.settings-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:120px}
+.field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.field select,.field input{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--white)}
+.field select:focus,.field input:focus{outline:none;border-color:var(--blue)}
+
+/* Estimate + run */
+.estimate-bar{display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:12px}
+.est-num{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:var(--blue);margin-right:6px}
+.est-label{font-size:13px;color:var(--muted)}
+.est-credits{font-size:13px;color:var(--muted)}
+.run-btn{width:100%;height:48px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;letter-spacing:.2px}
 .run-btn:hover{background:var(--blue-hover)}
-.run-btn:disabled{background:#B2CAFF;cursor:not-allowed}
+
+/* Results */
 #results-section{display:none}
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.results-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:600;color:var(--navy)}
-.results-subtitle{font-size:13px;color:var(--muted);margin-top:2px}
-.export-btn{display:flex;align-items:center;gap:7px;padding:9px 18px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;background:var(--white);cursor:pointer;color:var(--text)}
-.export-btn:hover{background:var(--surface)}
-.contact-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:14px;transition:box-shadow .15s}
-.contact-card:hover{box-shadow:0 4px 8px rgba(16,24,40,.08)}
-.avatar{width:42px;height:42px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--blue);flex-shrink:0}
-.cc-name{font-size:14px;font-weight:600;color:var(--text)}
-.cc-sub{font-size:13px;color:var(--muted);margin-top:1px}
-.cc-right{margin-left:auto;text-align:right;flex-shrink:0}
-.cc-email{font-size:12px;color:var(--blue);text-decoration:none}
-.sector-badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:500;background:var(--green-light);color:#027A48;margin-top:4px}
-.loading-wrap{padding:40px;text-align:center}
-.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+.back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;font-size:14px;color:var(--text-secondary);cursor:pointer;margin-bottom:20px;font-family:'Inter',sans-serif;padding:0}
+.back-btn:hover{color:var(--text)}
+.results-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.results-title{font-family:'Sora',sans-serif;font-size:22px;font-weight:700}
+.results-subtitle{font-size:14px;color:var(--muted);margin-top:4px}
+.export-btn{height:38px;padding:0 16px;background:var(--white);border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
+.export-btn:hover{border-color:var(--blue);color:var(--blue)}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;padding:60px 0;gap:16px}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:14px;color:var(--muted)}
-.back-btn{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;margin-bottom:20px}
-.back-btn:hover{color:var(--text)}
+.contact-card{display:flex;align-items:flex-start;gap:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.cc-name{font-size:15px;font-weight:600;color:var(--text)}
+.cc-sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.cc-right{text-align:right;flex-shrink:0;min-width:180px}
+.cc-email{font-size:13px;color:var(--blue);text-decoration:none}
+.cc-email:hover{text-decoration:underline}
+.cc-linkedin{font-size:12px;color:var(--blue);text-decoration:none;display:inline-block;margin-top:4px}
+.cc-linkedin:hover{text-decoration:underline}
+.sector-badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:500;background:var(--green-light);color:#027A48;margin-top:4px}
+
+/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-overlay.show{display:flex}
 .modal{background:var(--white);border-radius:var(--radius);padding:32px;width:440px;box-shadow:0 20px 40px rgba(0,0,0,.15)}
@@ -98,56 +131,103 @@ textarea.nl-input::placeholder{color:#98A2B3}
     <div class="nav-logo">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3"/><path d="M6 20v-1a6 6 0 0112 0v1"/></svg>
     </div>
-    <span class="brand-text">Easy<span>Prospector</span></span>
+    <span class="nav-title">EasyProspector</span>
   </div>
   <div class="nav-right">
-    <div class="api-badge"><span id="key-dot"></span><span id="key-label">API key required</span></div>
-    <button class="settings-btn" onclick="showKeyModal()">Settings</button>
+    <div class="key-indicator" onclick="showKeyModal()">
+      <div class="key-dot" id="key-dot"></div>
+      <span id="key-label">Add API key</span>
+    </div>
   </div>
 </nav>
 
-<div class="container">
+<div class="main">
   <div id="search-section">
     <div class="hero">
-      <h1>Find decision-makers<br/><em>instantly</em></h1>
-      <p>Describe who you're looking for in plain English — we'll find their contact details across Australian industries.</p>
+      <h1>Find your next customer</h1>
+      <p>Describe who you're looking for in plain English, then refine with filters.</p>
     </div>
 
+    <!-- AI search card -->
     <div class="card">
-      <div class="card-label">Describe your ideal prospect</div>
-      <div class="nl-wrap">
-        <textarea class="nl-input" id="nl-input" placeholder="e.g. Find me CMOs and Marketing Directors at hotel groups and hospitality companies in Australia..."></textarea>
-        <button class="nl-parse-btn" onclick="parseQuery()" id="parse-btn">✦ Parse with AI</button>
+      <div class="card-label" style="margin-bottom:10px">AI search</div>
+      <div class="nl-row">
+        <input type="text" id="nl-input" class="nl-input" placeholder="e.g. CFOs at healthcare companies in Sydney"/>
+        <button class="parse-btn" id="parse-btn" onclick="parseQuery()">✦ Parse with AI</button>
       </div>
       <div class="nl-examples">
-        <button class="nl-example" onclick="setExample(this)">CMOs at hotel groups</button>
-        <button class="nl-example" onclick="setExample(this)">Sales Directors in automotive</button>
-        <button class="nl-example" onclick="setExample(this)">COOs at private hospitals</button>
-        <button class="nl-example" onclick="setExample(this)">Revenue Directors at shopping centres</button>
-        <button class="nl-example" onclick="setExample(this)">Head of Sales at insurance companies</button>
+        <button class="nl-example" onclick="setExample(this)">CMOs at hotels</button>
+        <button class="nl-example" onclick="setExample(this)">Sales Directors in fintech</button>
+        <button class="nl-example" onclick="setExample(this)">CEOs of ASX-listed companies</button>
+        <button class="nl-example" onclick="setExample(this)">HR Directors at universities</button>
       </div>
+
+      <!-- Parsed result -->
       <div class="parsed-box" id="parsed-box">
         <div class="parsed-explanation" id="parsed-explanation"></div>
         <div class="parsed-tags" id="parsed-tags"></div>
-        <span class="edit-link" onclick="clearParsed()">Clear and use manual selectors ↓</span>
+        <span class="edit-link" onclick="clearParsed()">✕ Clear and re-type</span>
+
+        <!-- Advanced filters (collapsible) -->
+        <button class="adv-toggle" onclick="toggleAdv()" id="adv-toggle-btn">
+          <span class="adv-arrow" id="adv-arrow">▶</span> Refine filters
+        </button>
+        <div class="adv-panel" id="adv-panel">
+
+          <div class="adv-section">
+            <div class="adv-label">Seniority</div>
+            <div class="adv-chips" id="seniority-chips">
+              <div class="adv-chip" data-val="owner">Owner</div>
+              <div class="adv-chip" data-val="founder">Founder</div>
+              <div class="adv-chip" data-val="c_suite">C-Suite</div>
+              <div class="adv-chip" data-val="partner">Partner</div>
+              <div class="adv-chip" data-val="vp">VP</div>
+              <div class="adv-chip" data-val="head">Head</div>
+              <div class="adv-chip" data-val="director">Director</div>
+              <div class="adv-chip" data-val="manager">Manager</div>
+              <div class="adv-chip" data-val="senior">Senior</div>
+              <div class="adv-chip" data-val="entry">Entry</div>
+            </div>
+          </div>
+
+          <div class="adv-section">
+            <div class="adv-label">Company size (employees)</div>
+            <div class="adv-chips" id="size-chips">
+              <div class="adv-chip" data-val="1,10">1–10</div>
+              <div class="adv-chip" data-val="11,50">11–50</div>
+              <div class="adv-chip" data-val="51,200">51–200</div>
+              <div class="adv-chip" data-val="201,500">201–500</div>
+              <div class="adv-chip" data-val="501,1000">501–1000</div>
+              <div class="adv-chip" data-val="1001,5000">1001–5000</div>
+              <div class="adv-chip" data-val="5001,20000">5001+</div>
+            </div>
+          </div>
+
+          <div class="adv-section">
+            <div class="adv-label">Industry keywords</div>
+            <input type="text" class="adv-text" id="adv-keywords" placeholder="e.g. saas, fintech, aged care"/>
+          </div>
+
+          <div class="adv-section">
+            <div class="adv-label">Exclude domains</div>
+            <input type="text" class="adv-text" id="adv-exclude" placeholder="e.g. competitor.com, example.com"/>
+          </div>
+
+        </div>
       </div>
     </div>
 
-    <div style="display:flex;gap:8px;margin:16px 0">
-      <button id="mode-ai" onclick="setMode('ai')" style="flex:1;height:38px;border-radius:8px;border:2px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">✦ AI search</button>
-      <button id="mode-manual" onclick="setMode('manual')" style="flex:1;height:38px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">⚙ Manual</button>
-    </div>
-
+    <!-- Manual section -->
     <div id="manual-section" style="display:none">
     <div class="card">
       <div class="card-label" style="margin-bottom:10px">Industries</div>
       <div class="toggle-group" id="sector-toggles">
-        <div class="toggle active" data-val="Hotels">Hotels</div>
+        <div class="toggle" data-val="Hotels">Hotels</div>
         <div class="toggle" data-val="Insurance">Insurance</div>
-        <div class="toggle active" data-val="Automotive">Automotive</div>
+        <div class="toggle" data-val="Automotive">Automotive</div>
         <div class="toggle" data-val="Stadiums">Stadiums & Venues</div>
         <div class="toggle" data-val="Shopping Centres">Shopping Centres</div>
-        <div class="toggle active" data-val="Hospitality Groups">Hospitality Groups</div>
+        <div class="toggle" data-val="Hospitality Groups">Hospitality Groups</div>
         <div class="toggle" data-val="Healthcare">Healthcare</div>
         <div class="toggle" data-val="Finance">Financial Services</div>
         <div class="toggle" data-val="Technology">Technology</div>
@@ -156,20 +236,24 @@ textarea.nl-input::placeholder{color:#98A2B3}
 
       <div class="card-label" style="margin-top:24px;margin-bottom:10px">Job titles</div>
       <div class="toggle-group" id="title-toggles">
-        <div class="toggle active" data-val="CMO">CMO</div>
-        <div class="toggle active" data-val="Chief Marketing Officer">Chief Marketing Officer</div>
+        <div class="toggle" data-val="CMO">CMO</div>
+        <div class="toggle" data-val="Chief Marketing Officer">Chief Marketing Officer</div>
         <div class="toggle" data-val="Head of Sales">Head of Sales</div>
-        <div class="toggle active" data-val="Sales Director">Sales Director</div>
+        <div class="toggle" data-val="Sales Director">Sales Director</div>
         <div class="toggle" data-val="COO">COO</div>
         <div class="toggle" data-val="Chief Operating Officer">Chief Operating Officer</div>
         <div class="toggle" data-val="Commercial Director">Commercial Director</div>
         <div class="toggle" data-val="Revenue Director">Revenue Director</div>
-        <div class="toggle active" data-val="Marketing Director">Marketing Director</div>
+        <div class="toggle" data-val="Marketing Director">Marketing Director</div>
         <div class="toggle" data-val="CEO">CEO</div>
         <div class="toggle" data-val="CFO">CFO</div>
         <div class="toggle" data-val="General Manager">General Manager</div>
       </div>
+    </div>
+    </div>
 
+    <!-- Settings row (always visible) -->
+    <div class="card">
       <div class="settings-row">
         <div class="field">
           <label>Country</label>
@@ -194,23 +278,20 @@ textarea.nl-input::placeholder{color:#98A2B3}
           </select>
         </div>
       </div>
+    </div>
 
-    </div>
-    </div>
-      <div class="estimate-bar">
-        <div style="display:flex;align-items:baseline">
-          <div class="est-num" id="est-num">~150</div>
-          <div class="est-label">estimated contacts</div>
-        </div>
-        <div class="est-credits" id="est-credits">~50 credits</div>
+    <div class="estimate-bar">
+      <div style="display:flex;align-items:baseline">
+        <div class="est-num" id="est-num">~50</div>
+        <div class="est-label">estimated contacts</div>
       </div>
-
-      <button class="run-btn" onclick="runSearch()">
-        &#128269; Find prospects
-      </button>
+      <div class="est-credits" id="est-credits">~50 credits</div>
     </div>
+
+    <button class="run-btn" onclick="runSearch()">&#128269; Find prospects</button>
   </div>
 
+  <!-- Results -->
   <div id="results-section">
     <button class="back-btn" onclick="showSearch()">&#8592; New search</button>
     <div class="results-header">
@@ -222,40 +303,42 @@ textarea.nl-input::placeholder{color:#98A2B3}
     </div>
     <div id="loading-wrap" class="loading-wrap">
       <div class="spinner"></div>
-      <div class="loading-text" id="loading-text">Searching Lusha database...</div>
+      <div class="loading-text" id="loading-text">Searching Apollo database...</div>
     </div>
     <div id="results-list"></div>
   </div>
 </div>
 
+<!-- Key modal -->
 <div class="modal-overlay" id="key-modal">
   <div class="modal">
     <h2>API Settings</h2>
-    <p>Enter your Lusha API key to enable prospecting. Your key is stored in your browser only.</p>
-    <input type="password" id="lusha-key-input" placeholder="Lusha API key (e.g. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"/>
+    <p>Enter your Apollo API key to enable prospecting. Your key is stored in your browser only.</p>
+    <input type="password" id="apollo-key-input" placeholder="Apollo API key"/>
     <button class="modal-btn" onclick="saveKey()">Save & continue</button>
   </div>
 </div>
 
 <script>
 const SECTORS={
-  "Hotels":{"subIndustriesIds":[3]},
-  "Insurance":{"subIndustriesIds":[44]},
-  "Automotive":{"subIndustriesIds":[87,146]},
-  "Stadiums":{"subIndustriesIds":[32,28]},
-  "Shopping Centres":{"subIndustriesIds":[115],"mainIndustriesIds":[16]},
-  "Hospitality Groups":{"subIndustriesIds":[2,1,5]},
-  "Healthcare":{"subIndustriesIds":[55,56,57,58]},
-  "Finance":{"subIndustriesIds":[38,41,42]},
-  "Technology":{"mainIndustriesIds":[15]},
-  "Real Estate":{"mainIndustriesIds":[14]}
+  "Hotels":{"industryKeywords":["hotels","accommodation"]},
+  "Insurance":{"industryKeywords":["insurance"]},
+  "Automotive":{"industryKeywords":["automotive","motor vehicles"]},
+  "Stadiums":{"industryKeywords":["sports","entertainment","stadiums"]},
+  "Shopping Centres":{"industryKeywords":["retail","shopping centres"]},
+  "Hospitality Groups":{"industryKeywords":["hospitality","restaurants","food"]},
+  "Healthcare":{"industryKeywords":["healthcare","medical"]},
+  "Finance":{"industryKeywords":["finance","banking"]},
+  "Technology":{"industryKeywords":["technology","software"]},
+  "Real Estate":{"industryKeywords":["real estate","property"]}
 };
 
 let parsedData=null;
 let allContacts=[];
 
+// Key management
 function loadKey(){
-  const k=localStorage.getItem('lusha_key');
+  const k=localStorage.getItem('apollo_key');
   if(k){
     document.getElementById('key-dot').classList.add('ok');
     document.getElementById('key-label').textContent='API key set';
@@ -263,39 +346,59 @@ function loadKey(){
   return k;
 }
 function saveKey(){
-  const k=document.getElementById('lusha-key-input').value.trim();
+  const k=document.getElementById('apollo-key-input').value.trim();
   if(!k)return;
-  localStorage.setItem('lusha_key',k);
+  localStorage.setItem('apollo_key',k);
   document.getElementById('key-modal').classList.remove('show');
   loadKey();
 }
 function showKeyModal(){
-  document.getElementById('lusha-key-input').value=localStorage.getItem('lusha_key')||'';
+  document.getElementById('apollo-key-input').value=localStorage.getItem('apollo_key')||'';
   document.getElementById('key-modal').classList.add('show');
 }
 document.getElementById('key-modal').addEventListener('click',e=>{
   if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');
 });
 
+// Toggles
 document.querySelectorAll('.toggle').forEach(t=>{
   t.addEventListener('click',()=>{t.classList.toggle('active');updateEstimate();});
 });
 
+// Adv chips (single-select for size, multi for seniority)
+document.querySelectorAll('#seniority-chips .adv-chip').forEach(c=>{
+  c.addEventListener('click',()=>c.classList.toggle('active'));
+});
+document.querySelectorAll('#size-chips .adv-chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('#size-chips .adv-chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+
 function getSelected(id){
-  return[...document.querySelectorAll(`#${id} .toggle.active`)].map(t=>t.dataset.val);
+  return [...document.querySelectorAll(`#${id} .toggle.active`)].map(t=>t.dataset.val);
+}
+function getActiveChips(id){
+  return [...document.querySelectorAll(`#${id} .adv-chip.active`)].map(c=>c.dataset.val);
 }
 
 function updateEstimate(){
-  const sectors=parsedData?1:getSelected('sector-toggles').length;
-  const titles=parsedData?parsedData.jobTitles.length:getSelected('title-toggles').length;
   const max=parseInt(document.getElementById('max-contacts').value)||50;
   const level=document.getElementById('data-level').value;
-  const est=Math.min(sectors*titles*30,max);
-  document.getElementById('est-num').textContent=`~${Math.max(est,10)}`;
+  document.getElementById('est-num').textContent=`~${max}`;
   const credits=level==='preview'?0:max;
   document.getElementById('est-credits').textContent=credits===0?'no credits used':`~${credits} credits`;
 }
 updateEstimate();
+
+// Advanced panel toggle
+function toggleAdv(){
+  const panel=document.getElementById('adv-panel');
+  const arrow=document.getElementById('adv-arrow');
+  panel.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
 
 function setExample(btn){
   document.getElementById('nl-input').value=btn.textContent;
@@ -317,19 +420,37 @@ async function parseQuery(){
     const data=await r.json();
     if(data.error)throw new Error(data.error);
     parsedData=data;
+
+    // Show explanation
     document.getElementById('parsed-explanation').textContent=data.explanation||query;
+
+    // Show tags
     const tags=document.getElementById('parsed-tags');
     tags.innerHTML='';
     (data.jobTitles||[]).forEach(t=>{
       const s=document.createElement('span');
       s.className='tag tag-title';s.textContent=t;tags.appendChild(s);
     });
-    const subMap={3:'Hotels',44:'Insurance',87:'Automotive',32:'Sports',28:'Entertainment',115:'Shopping Centres',55:'Hospitals',56:'Aged Care',1:'Food & Bev',2:'Restaurants',5:'Events'};
-    const mainMap={1:'Hospitality',8:'Finance',15:'Technology',14:'Real Estate',10:'Healthcare',16:'Retail'};
-    [...(data.subIndustriesIds||[]).map(id=>subMap[id]),...(data.mainIndustriesIds||[]).map(id=>mainMap[id])].filter(Boolean).forEach(i=>{
+    (data.industryKeywords||[]).forEach(i=>{
       const s=document.createElement('span');
       s.className='tag tag-industry';s.textContent=i;tags.appendChild(s);
     });
+
+    // Pre-populate advanced filters
+    // Seniority — try to infer from job titles
+    const titleStr=(data.jobTitles||[]).join(' ').toLowerCase();
+    document.querySelectorAll('#seniority-chips .adv-chip').forEach(c=>{
+      const v=c.dataset.val;
+      const shouldActivate=(v==='c_suite'&&(titleStr.includes('ceo')||titleStr.includes('cfo')||titleStr.includes('coo')||titleStr.includes('cmo')||titleStr.includes('chief')))||
+        (v==='director'&&titleStr.includes('director'))||
+        (v==='vp'&&titleStr.includes('vp'))||
+        (v==='manager'&&titleStr.includes('manager'));
+      c.classList.toggle('active',shouldActivate);
+    });
+
+    // Pre-populate industry keywords field
+    document.getElementById('adv-keywords').value=(data.industryKeywords||[]).join(', ');
+
     document.getElementById('parsed-box').style.display='block';
     updateEstimate();
   }catch(e){
@@ -342,64 +463,82 @@ async function parseQuery(){
 function clearParsed(){
   parsedData=null;
   document.getElementById('parsed-box').style.display='none';
+  document.getElementById('adv-panel').classList.remove('open');
+  document.getElementById('adv-arrow').classList.remove('open');
   document.getElementById('nl-input').value='';
-  updateEstimate();
-}
-
-function setMode(mode){
-  const aiBtn=document.getElementById('mode-ai');
-  const manualBtn=document.getElementById('mode-manual');
-  const manualSection=document.getElementById('manual-section');
-  const aiSection=document.getElementById('parsed-box');
-  if(mode==='ai'){
-    aiBtn.style.background='var(--blue)';aiBtn.style.color='#fff';aiBtn.style.borderColor='var(--blue)';
-    manualBtn.style.background='#fff';manualBtn.style.color='var(--text-secondary)';manualBtn.style.borderColor='var(--border)';
-    manualSection.style.display='none';
-  } else {
-    parsedData=null;
-    manualBtn.style.background='var(--blue)';manualBtn.style.color='#fff';manualBtn.style.borderColor='var(--blue)';
-    aiBtn.style.background='#fff';aiBtn.style.color='var(--text-secondary)';aiBtn.style.borderColor='var(--border)';
-    manualSection.style.display='block';
-    if(aiSection)aiSection.style.display='none';
-  }
+  document.getElementById('adv-keywords').value='';
+  document.getElementById('adv-exclude').value='';
+  document.querySelectorAll('.adv-chip').forEach(c=>c.classList.remove('active'));
   updateEstimate();
 }
 
 async function runSearch(){
   const key=loadKey();
   if(!key){showKeyModal();return;}
-  let jobTitles,mainIndustriesIds=[],subIndustriesIds=[],sectorLabel;
+
+  let jobTitles,industryKeywords=[],sectorLabel,seniorities=[],employeeRange=null,excludeDomains=[];
+
   if(parsedData){
     jobTitles=parsedData.jobTitles||[];
-    mainIndustriesIds=parsedData.mainIndustriesIds||[];
-    subIndustriesIds=parsedData.subIndustriesIds||[];
-    sectorLabel=parsedData.explanation||'custom search';
-  }else{
+    sectorLabel=parsedData.sectorLabel||parsedData.explanation||'custom search';
+
+    // Merge adv-keywords with parsed keywords
+    const advKw=document.getElementById('adv-keywords').value.trim();
+    if(advKw){
+      industryKeywords=advKw.split(',').map(k=>k.trim()).filter(Boolean);
+    } else {
+      industryKeywords=parsedData.industryKeywords||[];
+    }
+
+    // Seniority
+    seniorities=getActiveChips('seniority-chips');
+
+    // Employee range
+    const sizeChip=document.querySelector('#size-chips .adv-chip.active');
+    if(sizeChip)employeeRange=sizeChip.dataset.val;
+
+    // Exclude domains
+    const excl=document.getElementById('adv-exclude').value.trim();
+    if(excl)excludeDomains=excl.split(',').map(d=>d.trim()).filter(Boolean);
+
+  } else {
     const sectors=getSelected('sector-toggles');
     jobTitles=getSelected('title-toggles');
     sectors.forEach(s=>{
       const f=SECTORS[s]||{};
-      (f.mainIndustriesIds||[]).forEach(id=>{if(!mainIndustriesIds.includes(id))mainIndustriesIds.push(id);});
-      (f.subIndustriesIds||[]).forEach(id=>{if(!subIndustriesIds.includes(id))subIndustriesIds.push(id);});
+      (f.industryKeywords||[]).forEach(k=>{if(!industryKeywords.includes(k))industryKeywords.push(k);});
     });
     sectorLabel=sectors.join(', ');
   }
+
   if(!jobTitles.length){alert('Please select at least one job title.');return;}
+
   const country=document.getElementById('country').value;
   const max=parseInt(document.getElementById('max-contacts').value)||50;
   const level=document.getElementById('data-level').value;
+
   document.getElementById('search-section').style.display='none';
   document.getElementById('results-section').style.display='block';
   document.getElementById('results-list').innerHTML='';
-  document.getElementById('loading-wrap').style.display='block';
+  document.getElementById('loading-wrap').style.display='flex';
   document.getElementById('results-title').textContent='Searching...';
   document.getElementById('results-subtitle').textContent=`${jobTitles.slice(0,3).join(', ')} · ${sectorLabel}`;
   allContacts=[];
+
   try{
     const r=await fetch('/api/search',{
       method:'POST',
-      headers:{'Content-Type':'application/json','X-Lusha-Key':key},
-      body:JSON.stringify({jobTitles,mainIndustriesIds,subIndustriesIds,country,maxContacts:max,wantEmail:level.includes('email'),wantPhone:level.includes('phone'),sectorLabel})
+      headers:{'Content-Type':'application/json','X-Apollo-Key':key},
+      body:JSON.stringify({
+        jobTitles,industryKeywords,country,
+        maxContacts:max,
+        wantEmail:level.includes('email'),
+        wantPhone:level.includes('phone'),
+        sectorLabel,
+        seniorities,
+        employeeRange,
+        excludeDomains
+      })
     });
     const data=await r.json();
     allContacts=data.contacts||[];
@@ -419,6 +558,7 @@ async function runSearch(){
         <div class="cc-right">
           ${c.email?`<a class="cc-email" href="mailto:${c.email}">${c.email}</a>`:'<span style="font-size:12px;color:#98A2B3">no email found</span>'}
           ${c.phone?`<div style="font-size:12px;color:#667085;margin-top:2px">${c.phone}</div>`:''}
+          ${c.linkedin?`<a class="cc-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:''}
           <div><span class="sector-badge">${c.sector||country}</span></div>
         </div>`;
       list.appendChild(div);
@@ -446,7 +586,7 @@ function exportCSV(){
 }
 
 loadKey();
-if(!localStorage.getItem('lusha_key'))setTimeout(showKeyModal,800);
+if(!localStorage.getItem('apollo_key'))setTimeout(showKeyModal,800);
 </script>
 </body>
 </html>
