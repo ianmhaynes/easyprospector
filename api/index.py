@@ -29,7 +29,7 @@ Return ONLY valid JSON with no explanation or markdown:
 
 Rules:
 - jobTitles: include both abbreviated and full versions (e.g. "CMO" AND "Chief Marketing Officer")
-- industryKeywords: 1-3 plain English industry keywords (e.g. "healthcare", "software", "real estate"). Leave empty [] if no industry specified.
+- industryKeywords: MAX 1 industry keyword (e.g. "healthcare", "software", "real estate"). Pick the single most specific one. Leave empty [] if no industry specified.
 - sectorLabel: a SHORT human-readable label for the sector badge (max 3 words). Empty string if no industry specified.
 - explanation: one sentence describing what will be searched"""
 
@@ -57,7 +57,7 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
         else:
             parts.append(f"person_locations[]={requests.utils.quote(country)}")
     if industry_keywords:
-        parts.append(f"q_keywords={requests.utils.quote(' '.join(industry_keywords))}")
+        parts.append(f"q_keywords={requests.utils.quote(industry_keywords[0])}")
     parts.append(f"per_page={per_page}")
     parts.append(f"page={page}")
 
