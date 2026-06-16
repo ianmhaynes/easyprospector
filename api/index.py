@@ -29,7 +29,7 @@ Return ONLY valid JSON with no explanation or markdown:
 
 Rules:
 - jobTitles: include both abbreviated and full versions (e.g. "CMO" AND "Chief Marketing Officer")
-- industryKeywords: MAX 1 industry keyword (e.g. "healthcare", "software", "real estate"). Pick the single most specific one. Leave empty [] if no industry specified.
+- industryKeywords: MAX 1 short industry keyword (e.g. "healthcare", "software", "hospitality", "finance"). Use simple common words only — avoid phrases like "financial services" or "wealth management", use "finance" instead. Leave empty [] if no industry specified or if multiple unrelated industries are requested.
 - sectorLabel: a SHORT human-readable label for the sector badge (max 3 words). Empty string if no industry specified.
 - explanation: one sentence describing what will be searched"""
 
