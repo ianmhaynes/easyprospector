@@ -141,6 +141,7 @@ def search():
     country = data.get("country", "Australia")
     city = data.get("city", "")
     max_contacts = min(int(data.get("maxContacts", 50)), 500)
+    city = data.get("city", "")
     sector_label = data.get("sectorLabel", "")
 
     if not job_titles:
