@@ -272,7 +272,7 @@ document.getElementById('key-modal').addEventListener('click',e=>{
 });
 
 document.querySelectorAll('.toggle').forEach(t=>{
-  t.addEventListener('click',()=>{t.classList.toggle('active');updateEstimate();});
+  t.addEventListener('click',()=>{t.classList.toggle('active');parsedData=null;updateEstimate();});
 });
 
 function getSelected(id){
