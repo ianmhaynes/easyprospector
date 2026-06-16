@@ -159,14 +159,16 @@ def search():
         return jsonify({"error": "No job titles provided"}), 400
     seen = set()
     results = []
+    debug_log = []
     max_per_title = max(10, max_contacts // len(job_titles))
     for title in job_titles:
         count = 0
         for page in range(max(1, max_per_title // 10)):
             if count >= max_per_title: break
             result = lusha_search(api_key, title, industry_filter, country, page)
+            debug_log.append({"title": title, "page": page, "status": "ok" if result else "no_result", "count": len(result.get("results", [])) if result else 0})
             if not result: break
-            contacts = result.get("data", [])
+            contacts = result.get("results", [])
             if not contacts: break
             for c in contacts:
                 if count >= max_per_title: break
