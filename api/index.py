@@ -52,7 +52,10 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
     for title in job_titles:
         parts.append(f"person_titles[]={requests.utils.quote(title)}")
     if country:
-        parts.append(f"person_locations[]={requests.utils.quote(country)}")
+        if city:
+            parts.append(f"person_locations[]={requests.utils.quote(city + ", " + country)}")
+        else:
+            parts.append(f"person_locations[]={requests.utils.quote(country)}")
     if industry_keywords:
         parts.append(f"q_keywords={requests.utils.quote(' '.join(industry_keywords))}")
     parts.append(f"per_page={per_page}")
@@ -155,6 +158,7 @@ def search():
     job_titles = data.get("jobTitles", [])
     industry_keywords = data.get("industryKeywords", [])
     country = data.get("country", "Australia")
+    city = data.get("city", "")
     max_contacts = min(int(data.get("maxContacts", 50)), 500)
     want_email = data.get("wantEmail", True)
     want_phone = data.get("wantPhone", False)
