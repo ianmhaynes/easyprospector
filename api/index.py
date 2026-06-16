@@ -69,19 +69,6 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
     return None
 
 
-def apollo_enrich(api_key, person_id, want_phone=False):
-    payload = {"id": person_id, "reveal_personal_emails": False, "reveal_phone_number": want_phone}
-    r = requests.post(
-        f"{APOLLO_BASE}/people/match",
-        headers={"x-api-key": api_key, "Content-Type": "application/json", "Cache-Control": "no-cache"},
-        json=payload,
-        timeout=30
-    )
-    if r.status_code == 200:
-        return r.json().get("person", {})
-    return {}
-
-
 def apollo_bulk_enrich(api_key, person_ids, want_phone=False):
     details = [{"id": pid, "reveal_personal_emails": False, "reveal_phone_number": want_phone} for pid in person_ids]
     r = requests.post(
@@ -153,16 +140,12 @@ def search():
     industry_keywords = data.get("industryKeywords", [])
     country = data.get("country", "Australia")
     city = data.get("city", "")
-    max_contacts = min(int(data.get("maxContacts", 20)), 500)
-    want_email = data.get("wantEmail", True)
-    want_phone = data.get("wantPhone", False)
+    max_contacts = min(int(data.get("maxContacts", 50)), 500)
     sector_label = data.get("sectorLabel", "")
-
 
     if not job_titles:
         return jsonify({"error": "No job titles provided"}), 400
 
-    # Step 1: Collect raw people from search
     seen = set()
     raw_people = []
     per_page = 10
@@ -188,40 +171,67 @@ def search():
             break
         page += 1
 
-    # Step 2: Bulk enrich in batches of 10
-    enriched_map = {}
-    if want_email or want_phone:
-        ids = [p.get("id") for p in raw_people]
-        for i in range(0, len(ids), 10):
-            batch = ids[i:i+10]
-            enriched_map.update(apollo_bulk_enrich(api_key, batch, want_phone=want_phone))
-
-    # Step 3: Build results
+    # Return names/companies only — no enrich, no credits used
     results = []
     for p in raw_people:
         pid = p.get("id", "")
-        enriched = enriched_map.get(pid, {})
-        first = enriched.get("first_name", "") or p.get("first_name", "")
-        last = enriched.get("last_name", "")
-        name = f"{first} {last}".strip()
-        email = extract_email(enriched) if want_email else ""
-        phone = extract_phone(enriched) if want_phone else ""
-        org = enriched.get("organization") or p.get("organization") or {}
+        first = p.get("first_name", "")
+        # Last name is obfuscated in search — will be revealed on enrich
+        name = first
+        org = p.get("organization") or {}
         results.append({
             "id": pid,
             "name": name,
-            "title": enriched.get("title", "") or p.get("title", ""),
-            "company": enriched.get("organization_name", "") or org.get("name", ""),
-            "domain": org.get("website_url", ""),
-            "email": email,
-            "phone": phone,
-            "linkedin": enriched.get("linkedin_url", "") or p.get("linkedin_url", ""),
-            "city": enriched.get("city", "") or p.get("city", ""),
-            "country": enriched.get("country", "") or p.get("country", country),
+            "title": p.get("title", ""),
+            "company": org.get("name", ""),
+            "domain": "",
+            "email": "",
+            "phone": "",
+            "linkedin": p.get("linkedin_url", ""),
+            "city": p.get("city", ""),
+            "country": p.get("country", country),
             "sector": sector_label,
         })
 
     return jsonify({"total": len(results), "contacts": results})
+
+
+@app.route("/api/enrich", methods=["POST"])
+def enrich():
+    data = request.json
+    api_key = request.headers.get("X-Apollo-Key") or APOLLO_KEY
+    if not api_key:
+        return jsonify({"error": "No Apollo API key provided"}), 401
+
+    person_ids = data.get("ids", [])
+    want_phone = data.get("wantPhone", False)
+
+    if not person_ids:
+        return jsonify({"error": "No person IDs provided"}), 400
+
+    # Bulk enrich in batches of 10
+    enriched_map = {}
+    for i in range(0, len(person_ids), 10):
+        batch = person_ids[i:i+10]
+        enriched_map.update(apollo_bulk_enrich(api_key, batch, want_phone=want_phone))
+
+    results = {}
+    for pid in person_ids:
+        e = enriched_map.get(pid, {})
+        first = e.get("first_name", "")
+        last = e.get("last_name", "")
+        name = f"{first} {last}".strip()
+        org = e.get("organization") or {}
+        results[pid] = {
+            "name": name,
+            "email": extract_email(e),
+            "phone": extract_phone(e) if want_phone else "",
+            "linkedin": e.get("linkedin_url", ""),
+            "city": e.get("city", ""),
+            "domain": org.get("website_url", ""),
+        }
+
+    return jsonify({"enriched": results})
 
 
 if __name__ == "__main__":

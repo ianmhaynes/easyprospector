@@ -25,13 +25,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
 .key-indicator{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
 .key-dot{width:8px;height:8px;border-radius:50%;background:#D0D5DD}
 .key-dot.ok{background:#12B76A}
-.main{max-width:680px;margin:0 auto;padding:32px 16px 80px}
+.main{max-width:720px;margin:0 auto;padding:32px 16px 80px}
 .hero{text-align:center;margin-bottom:32px}
 .hero h1{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:8px}
 .hero p{font-size:15px;color:var(--text-secondary);line-height:1.6}
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
 .card-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.mode-tabs{display:flex;gap:8px;margin-bottom:16px}
 .nl-row{display:flex;gap:8px}
 .nl-input{flex:1;height:44px;border:1px solid var(--border);border-radius:8px;padding:0 14px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text)}
 .nl-input:focus{outline:none;border-color:var(--blue)}
@@ -40,8 +39,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
 .nl-examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .nl-example{font-size:12px;color:var(--blue);background:var(--blue-light);border:none;border-radius:100px;padding:4px 12px;cursor:pointer;font-family:'Inter',sans-serif}
 .nl-example:hover{background:#dce8ff}
-
-/* Parsed box */
 .parsed-box{background:var(--blue-light);border:1px solid #C7D7FC;border-radius:10px;padding:16px;margin-top:16px;display:none}
 .parsed-explanation{font-size:14px;color:#1E40AF;margin-bottom:12px;font-weight:500}
 .parsed-tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -49,10 +46,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
 .tag-title{background:#EEF3FF;color:#1B5FE8}
 .tag-industry{background:#ECFDF3;color:#027A48}
 .edit-link{font-size:12px;color:var(--blue);cursor:pointer;margin-top:10px;display:inline-block;text-decoration:underline}
-
-/* Advanced filters */
 .adv-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--blue);cursor:pointer;margin-top:12px;user-select:none;background:none;border:none;padding:0;font-family:'Inter',sans-serif}
-.adv-toggle:hover{opacity:.8}
 .adv-arrow{transition:transform .2s;display:inline-block}
 .adv-arrow.open{transform:rotate(90deg)}
 .adv-panel{display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
@@ -65,55 +59,56 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
 .adv-chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .adv-text{width:100%;height:36px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text)}
 .adv-text:focus{outline:none;border-color:var(--blue)}
-.adv-row{display:flex;gap:8px}
-.adv-row .adv-text{flex:1}
-
-/* Manual section */
-.or-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
-.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .toggle-group{display:flex;flex-wrap:wrap;gap:7px}
 .toggle{padding:7px 14px;border:1px solid var(--border);border-radius:100px;font-size:13px;cursor:pointer;background:var(--white);color:var(--muted);transition:all .12s;user-select:none}
 .toggle:hover{border-color:#93AAFD;color:var(--blue)}
 .toggle.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.settings-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.settings-row{display:flex;gap:12px;flex-wrap:wrap}
 .field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:120px}
 .field label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.field select,.field input{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--white)}
+.field select,.field input[type="number"],.field input[type="text"]{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--white)}
 .field select:focus,.field input:focus{outline:none;border-color:var(--blue)}
-
-/* Estimate + run */
 .estimate-bar{display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:12px}
 .est-num{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:var(--blue);margin-right:6px}
 .est-label{font-size:13px;color:var(--muted)}
 .est-credits{font-size:13px;color:var(--muted)}
-.run-btn{width:100%;height:48px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif;letter-spacing:.2px}
+.run-btn{width:100%;height:48px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
 .run-btn:hover{background:var(--blue-hover)}
-
-/* Results */
 #results-section{display:none}
 .back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;font-size:14px;color:var(--text-secondary);cursor:pointer;margin-bottom:20px;font-family:'Inter',sans-serif;padding:0}
 .back-btn:hover{color:var(--text)}
-.results-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.results-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
 .results-title{font-family:'Sora',sans-serif;font-size:22px;font-weight:700}
 .results-subtitle{font-size:14px;color:var(--muted);margin-top:4px}
+.results-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
 .export-btn{height:38px;padding:0 16px;background:var(--white);border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap}
 .export-btn:hover{border-color:var(--blue);color:var(--blue)}
+.enrich-btn{height:38px;padding:0 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;display:none}
+.enrich-btn:hover{background:var(--blue-hover)}
 .loading-wrap{display:flex;flex-direction:column;align-items:center;padding:60px 0;gap:16px}
 .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:14px;color:var(--muted)}
-.contact-card{display:flex;align-items:flex-start;gap:14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
-.avatar{width:40px;height:40px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
-.cc-name{font-size:15px;font-weight:600;color:var(--text)}
-.cc-sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
-.cc-right{text-align:right;flex-shrink:0;min-width:180px}
+
+/* Select all row */
+.select-all-row{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;font-size:13px;color:var(--text-secondary)}
+.select-all-row input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--blue)}
+
+/* Contact cards */
+.contact-card{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;transition:border-color .12s}
+.contact-card.selected{border-color:var(--blue);background:#FAFBFF}
+.contact-card input[type="checkbox"]{width:16px;height:16px;cursor:pointer;flex-shrink:0;accent-color:var(--blue)}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.cc-info{flex:1;min-width:0}
+.cc-name{font-size:14px;font-weight:600;color:var(--text)}
+.cc-sub{font-size:13px;color:var(--text-secondary);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-right{text-align:right;flex-shrink:0;min-width:160px}
 .cc-email{font-size:13px;color:var(--blue);text-decoration:none}
 .cc-email:hover{text-decoration:underline}
-.cc-linkedin{font-size:12px;color:var(--blue);text-decoration:none;display:inline-block;margin-top:4px}
+.cc-linkedin{font-size:12px;color:var(--blue);text-decoration:none;display:inline-block;margin-top:3px}
 .cc-linkedin:hover{text-decoration:underline}
 .sector-badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:500;background:var(--green-light);color:#027A48;margin-top:4px}
-
-/* Modal */
+.no-email{font-size:12px;color:var(--muted)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:200}
 .modal-overlay.show{display:flex}
 .modal{background:var(--white);border-radius:var(--radius);padding:32px;width:440px;box-shadow:0 20px 40px rgba(0,0,0,.15)}
@@ -145,10 +140,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
   <div id="search-section">
     <div class="hero">
       <h1>Find your next customer</h1>
-      <p>Describe who you're looking for in plain English, then refine with filters.</p>
+      <p>Describe who you're looking for in plain English, then select contacts to enrich.</p>
     </div>
 
-    <!-- AI search card -->
     <div class="card">
       <div class="card-label" style="margin-bottom:10px">AI search</div>
       <div class="nl-row">
@@ -162,18 +156,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
         <button class="nl-example" onclick="setExample(this)">HR Directors at universities</button>
       </div>
 
-      <!-- Parsed result -->
       <div class="parsed-box" id="parsed-box">
         <div class="parsed-explanation" id="parsed-explanation"></div>
         <div class="parsed-tags" id="parsed-tags"></div>
         <span class="edit-link" onclick="clearParsed()">✕ Clear and re-type</span>
-
-        <!-- Advanced filters (collapsible) -->
         <button class="adv-toggle" onclick="toggleAdv()" id="adv-toggle-btn">
           <span class="adv-arrow" id="adv-arrow">▶</span> Refine filters
         </button>
         <div class="adv-panel" id="adv-panel">
-
           <div class="adv-section">
             <div class="adv-label">Seniority</div>
             <div class="adv-chips" id="seniority-chips">
@@ -189,7 +179,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
               <div class="adv-chip" data-val="entry">Entry</div>
             </div>
           </div>
-
           <div class="adv-section">
             <div class="adv-label">Company size (employees)</div>
             <div class="adv-chips" id="size-chips">
@@ -202,22 +191,18 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
               <div class="adv-chip" data-val="5001,20000">5001+</div>
             </div>
           </div>
-
           <div class="adv-section">
             <div class="adv-label">Industry keywords</div>
             <input type="text" class="adv-text" id="adv-keywords" placeholder="e.g. saas, fintech, aged care"/>
           </div>
-
           <div class="adv-section">
             <div class="adv-label">Exclude domains</div>
             <input type="text" class="adv-text" id="adv-exclude" placeholder="e.g. competitor.com, example.com"/>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Manual section -->
     <div id="manual-section" style="display:none">
     <div class="card">
       <div class="card-label" style="margin-bottom:10px">Industries</div>
@@ -233,7 +218,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
         <div class="toggle" data-val="Technology">Technology</div>
         <div class="toggle" data-val="Real Estate">Real Estate</div>
       </div>
-
       <div class="card-label" style="margin-top:24px;margin-bottom:10px">Job titles</div>
       <div class="toggle-group" id="title-toggles">
         <div class="toggle" data-val="CMO">CMO</div>
@@ -252,7 +236,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
     </div>
     </div>
 
-    <!-- Settings row (always visible) -->
     <div class="card">
       <div class="settings-row">
         <div class="field">
@@ -273,29 +256,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
           <label>Max contacts</label>
           <input type="number" id="max-contacts" value="50" min="10" max="500" step="10" oninput="updateEstimate()"/>
         </div>
-        <div class="field">
-          <label>Data to retrieve</label>
-          <select id="data-level" onchange="updateEstimate()">
-            <option value="preview">Names & companies only</option>
-            <option value="email" selected>+ Work email (uses credits)</option>
-            <option value="email+phone">+ Email & phone (uses credits)</option>
-          </select>
-        </div>
       </div>
     </div>
 
     <div class="estimate-bar">
       <div style="display:flex;align-items:baseline">
         <div class="est-num" id="est-num">~50</div>
-        <div class="est-label">estimated contacts</div>
+        <div class="est-label">contacts · free preview</div>
       </div>
-      <div class="est-credits" id="est-credits">~50 credits</div>
+      <div class="est-credits" id="est-credits">0 credits — select contacts to enrich</div>
     </div>
 
     <button class="run-btn" onclick="runSearch()">&#128269; Find prospects</button>
   </div>
 
-  <!-- Results -->
   <div id="results-section">
     <button class="back-btn" onclick="showSearch()">&#8592; New search</button>
     <div class="results-header">
@@ -303,7 +277,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
         <div class="results-title" id="results-title">Searching...</div>
         <div class="results-subtitle" id="results-subtitle"></div>
       </div>
-      <button class="export-btn" onclick="exportCSV()">&#8681; Export CSV</button>
+      <div class="results-actions">
+        <button class="export-btn" onclick="exportCSV()">&#8681; Export CSV</button>
+        <button class="enrich-btn" id="enrich-btn" onclick="enrichSelected()">&#9993; Get emails (0)</button>
+      </div>
     </div>
     <div id="loading-wrap" class="loading-wrap">
       <div class="spinner"></div>
@@ -313,7 +290,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
   </div>
 </div>
 
-<!-- Key modal -->
 <div class="modal-overlay" id="key-modal">
   <div class="modal">
     <h2>API Settings</h2>
@@ -340,7 +316,6 @@ const SECTORS={
 let parsedData=null;
 let allContacts=[];
 
-// Key management
 function loadKey(){
   const k=localStorage.getItem('apollo_key');
   if(k){
@@ -364,12 +339,9 @@ document.getElementById('key-modal').addEventListener('click',e=>{
   if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');
 });
 
-// Toggles
 document.querySelectorAll('.toggle').forEach(t=>{
   t.addEventListener('click',()=>{t.classList.toggle('active');updateEstimate();});
 });
-
-// Adv chips (single-select for size, multi for seniority)
 document.querySelectorAll('#seniority-chips .adv-chip').forEach(c=>{
   c.addEventListener('click',()=>c.classList.toggle('active'));
 });
@@ -389,14 +361,10 @@ function getActiveChips(id){
 
 function updateEstimate(){
   const max=parseInt(document.getElementById('max-contacts').value)||50;
-  const level=document.getElementById('data-level').value;
   document.getElementById('est-num').textContent=`~${max}`;
-  const credits=level==='preview'?0:max;
-  document.getElementById('est-credits').textContent=credits===0?'no credits used':`~${credits} credits`;
 }
 updateEstimate();
 
-// Advanced panel toggle
 function toggleAdv(){
   const panel=document.getElementById('adv-panel');
   const arrow=document.getElementById('adv-arrow');
@@ -413,8 +381,7 @@ async function parseQuery(){
   const query=document.getElementById('nl-input').value.trim();
   if(!query)return;
   const btn=document.getElementById('parse-btn');
-  btn.textContent='Parsing...';
-  btn.disabled=true;
+  btn.textContent='Parsing...';btn.disabled=true;
   try{
     const r=await fetch('/api/parse',{
       method:'POST',
@@ -424,11 +391,7 @@ async function parseQuery(){
     const data=await r.json();
     if(data.error)throw new Error(data.error);
     parsedData=data;
-
-    // Show explanation
     document.getElementById('parsed-explanation').textContent=data.explanation||query;
-
-    // Show tags
     const tags=document.getElementById('parsed-tags');
     tags.innerHTML='';
     (data.jobTitles||[]).forEach(t=>{
@@ -439,29 +402,22 @@ async function parseQuery(){
       const s=document.createElement('span');
       s.className='tag tag-industry';s.textContent=i;tags.appendChild(s);
     });
-
-    // Pre-populate advanced filters
-    // Seniority — try to infer from job titles
+    // Pre-populate seniority
     const titleStr=(data.jobTitles||[]).join(' ').toLowerCase();
     document.querySelectorAll('#seniority-chips .adv-chip').forEach(c=>{
       const v=c.dataset.val;
-      const shouldActivate=(v==='c_suite'&&(titleStr.includes('ceo')||titleStr.includes('cfo')||titleStr.includes('coo')||titleStr.includes('cmo')||titleStr.includes('chief')))||
+      const on=(v==='c_suite'&&(titleStr.includes('ceo')||titleStr.includes('cfo')||titleStr.includes('coo')||titleStr.includes('cmo')||titleStr.includes('chief')))||
         (v==='director'&&titleStr.includes('director'))||
         (v==='vp'&&titleStr.includes('vp'))||
         (v==='manager'&&titleStr.includes('manager'));
-      c.classList.toggle('active',shouldActivate);
+      c.classList.toggle('active',on);
     });
-
-    // Pre-populate industry keywords field
     document.getElementById('adv-keywords').value=(data.industryKeywords||[]).join(', ');
-
     document.getElementById('parsed-box').style.display='block';
-    updateEstimate();
   }catch(e){
     alert('Could not parse — try manual selectors below.');
   }
-  btn.textContent='✦ Parse with AI';
-  btn.disabled=false;
+  btn.textContent='✦ Parse with AI';btn.disabled=false;
 }
 
 function clearParsed(){
@@ -473,46 +429,33 @@ function clearParsed(){
   document.getElementById('adv-keywords').value='';
   document.getElementById('adv-exclude').value='';
   document.querySelectorAll('.adv-chip').forEach(c=>c.classList.remove('active'));
-  updateEstimate();
+}
+
+function updateEnrichBtn(){
+  const checked=document.querySelectorAll('#results-list input[type="checkbox"]:checked');
+  const btn=document.getElementById('enrich-btn');
+  btn.textContent=`✉ Get emails (${checked.length})`;
+  btn.style.display=checked.length>0?'block':'none';
 }
 
 async function runSearch(){
   const key=loadKey();
   if(!key){showKeyModal();return;}
 
-  let jobTitles,industryKeywords=[],sectorLabel,seniorities=[],employeeRange=null,excludeDomains=[];
-
+  let jobTitles,industryKeywords=[],sectorLabel;
   if(parsedData){
     jobTitles=parsedData.jobTitles||[];
     sectorLabel=parsedData.sectorLabel||'Custom search';
-
-    // Merge adv-keywords with parsed keywords
     const advKw=document.getElementById('adv-keywords').value.trim();
-    if(advKw){
-      industryKeywords=advKw.split(',').map(k=>k.trim()).filter(Boolean);
-    } else {
-      industryKeywords=parsedData.industryKeywords||[];
-    }
-
-    // Seniority
-    seniorities=getActiveChips('seniority-chips');
-
-    // Employee range
-    const sizeChip=document.querySelector('#size-chips .adv-chip.active');
-    if(sizeChip)employeeRange=sizeChip.dataset.val;
-
-    // Exclude domains
-    const excl=document.getElementById('adv-exclude').value.trim();
-    if(excl)excludeDomains=excl.split(',').map(d=>d.trim()).filter(Boolean);
-
-  } else {
+    industryKeywords=advKw?advKw.split(',').map(k=>k.trim()).filter(Boolean):parsedData.industryKeywords||[];
+  }else{
     const sectors=getSelected('sector-toggles');
     jobTitles=getSelected('title-toggles');
     sectors.forEach(s=>{
       const f=SECTORS[s]||{};
       (f.industryKeywords||[]).forEach(k=>{if(!industryKeywords.includes(k))industryKeywords.push(k);});
     });
-    sectorLabel=sectors.join(', ');
+    sectorLabel=sectors.join(', ')||'Custom search';
   }
 
   if(!jobTitles.length){alert('Please select at least one job title.');return;}
@@ -520,57 +463,122 @@ async function runSearch(){
   const country=document.getElementById('country').value;
   const city=document.getElementById('city').value.trim();
   const max=parseInt(document.getElementById('max-contacts').value)||50;
-  const level=document.getElementById('data-level').value;
 
   document.getElementById('search-section').style.display='none';
   document.getElementById('results-section').style.display='block';
   document.getElementById('results-list').innerHTML='';
   document.getElementById('loading-wrap').style.display='flex';
+  document.getElementById('loading-text').textContent='Searching Apollo database...';
   document.getElementById('results-title').textContent='Searching...';
   document.getElementById('results-subtitle').textContent=`${jobTitles.slice(0,3).join(', ')} · ${sectorLabel}`;
+  document.getElementById('enrich-btn').style.display='none';
   allContacts=[];
 
   try{
     const r=await fetch('/api/search',{
       method:'POST',
       headers:{'Content-Type':'application/json','X-Apollo-Key':key},
-      body:JSON.stringify({
-        jobTitles,industryKeywords,country,city,
-        maxContacts:max,
-        wantEmail:level.includes('email'),
-        wantPhone:level.includes('phone'),
-        sectorLabel,
-        seniorities,
-        employeeRange,
-        excludeDomains
-      })
+      body:JSON.stringify({jobTitles,industryKeywords,country,city,maxContacts:max,sectorLabel})
     });
     const data=await r.json();
     allContacts=data.contacts||[];
     document.getElementById('loading-wrap').style.display='none';
     document.getElementById('results-title').textContent=`${allContacts.length} contacts found`;
+
     const list=document.getElementById('results-list');
-    allContacts.forEach(c=>{
-      const initials=(c.name||'??').split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+
+    // Select all row
+    const selAll=document.createElement('div');
+    selAll.className='select-all-row';
+    selAll.innerHTML=`<input type="checkbox" id="select-all"/><label for="select-all" style="cursor:pointer">Select all — then click "Get emails" to enrich selected contacts (1 credit each)</label>`;
+    list.appendChild(selAll);
+    document.getElementById('select-all').addEventListener('change',function(){
+      document.querySelectorAll('#results-list input[type="checkbox"].contact-cb').forEach(cb=>cb.checked=this.checked);
+      document.querySelectorAll('.contact-card').forEach(c=>c.classList.toggle('selected',this.checked));
+      updateEnrichBtn();
+    });
+
+    allContacts.forEach((c,idx)=>{
+      const initials=(c.name||'?').split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase()||'?';
       const div=document.createElement('div');
       div.className='contact-card';
-      div.innerHTML=`<div class="avatar">${initials}</div>
-        <div style="flex:1;min-width:0">
-          <div class="cc-name">${c.name||''}</div>
+      div.dataset.idx=idx;
+      div.innerHTML=`
+        <input type="checkbox" class="contact-cb" data-id="${c.id}"/>
+        <div class="avatar">${initials}</div>
+        <div class="cc-info">
+          <div class="cc-name" id="name-${c.id}">${c.name||'—'}</div>
           <div class="cc-sub">${c.title||''}</div>
           <div class="cc-sub">${c.company||''}${c.city?' · '+c.city:''}</div>
         </div>
         <div class="cc-right">
-          ${c.email?`<a class="cc-email" href="mailto:${c.email}">${c.email}</a>`:'<span style="font-size:12px;color:#98A2B3">no email found</span>'}
-          ${c.phone?`<div style="font-size:12px;color:#667085;margin-top:2px">${c.phone}</div>`:''}
+          <div id="email-${c.id}" class="no-email">—</div>
           ${c.linkedin?`<a class="cc-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>`:''}
           <div><span class="sector-badge">${c.sector||country}</span></div>
         </div>`;
+      div.querySelector('.contact-cb').addEventListener('change',function(){
+        div.classList.toggle('selected',this.checked);
+        updateEnrichBtn();
+      });
       list.appendChild(div);
     });
   }catch(e){
     document.getElementById('loading-wrap').style.display='none';
     document.getElementById('results-list').innerHTML=`<div style="padding:20px;color:#E53935;font-size:14px">Error: ${e.message}</div>`;
+  }
+}
+
+async function enrichSelected(){
+  const key=loadKey();
+  if(!key){showKeyModal();return;}
+  const checked=[...document.querySelectorAll('#results-list input[type="checkbox"].contact-cb:checked')];
+  if(!checked.length)return;
+  const ids=checked.map(cb=>cb.dataset.id);
+  const btn=document.getElementById('enrich-btn');
+  btn.textContent='Enriching...';btn.disabled=true;
+
+  try{
+    const r=await fetch('/api/enrich',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Apollo-Key':key},
+      body:JSON.stringify({ids,wantPhone:false})
+    });
+    const data=await r.json();
+    const enriched=data.enriched||{};
+
+    // Update contact cards and allContacts
+    ids.forEach(pid=>{
+      const e=enriched[pid]||{};
+      // Update name
+      if(e.name){
+        const nameEl=document.getElementById(`name-${pid}`);
+        if(nameEl)nameEl.textContent=e.name;
+        const c=allContacts.find(x=>x.id===pid);
+        if(c){
+          c.name=e.name;
+          c.email=e.email||'';
+          c.phone=e.phone||'';
+          c.linkedin=e.linkedin||c.linkedin;
+          c.city=e.city||c.city;
+          c.domain=e.domain||c.domain;
+        }
+      }
+      // Update email display
+      const emailEl=document.getElementById(`email-${pid}`);
+      if(emailEl){
+        if(e.email){
+          emailEl.outerHTML=`<a class="cc-email" href="mailto:${e.email}" id="email-${pid}">${e.email}</a>`;
+        } else {
+          emailEl.textContent='no email found';
+        }
+      }
+    });
+    btn.textContent=`✉ Get emails (${checked.length})`;
+    btn.disabled=false;
+  }catch(e){
+    alert('Enrich failed: '+e.message);
+    btn.textContent=`✉ Get emails (${checked.length})`;
+    btn.disabled=false;
   }
 }
 
