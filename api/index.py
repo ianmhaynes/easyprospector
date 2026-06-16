@@ -3,7 +3,6 @@ import requests
 import json
 import os
 import anthropic
-from urllib.parse import urlencode
 
 app = Flask(__name__)
 
@@ -22,15 +21,15 @@ Country: {country}
 Return ONLY valid JSON with no explanation or markdown:
 {{
   "jobTitles": ["title1", "title2"],
-  "industryKeywords": ["keyword1", "keyword2"],
+  "industryKeywords": ["keyword1"],
   "sectorLabel": "short label e.g. 'Healthcare' or 'SaaS Technology'",
   "explanation": "one sentence summary"
 }}
 
 Rules:
 - jobTitles: include both abbreviated and full versions (e.g. "CMO" AND "Chief Marketing Officer")
-- industryKeywords: MAX 1 short industry keyword (e.g. "healthcare", "software", "hospitality", "finance"). Use simple common words only — avoid phrases like "financial services" or "wealth management", use "finance" instead. Leave empty [] if no industry specified or if multiple unrelated industries are requested.
-- sectorLabel: a SHORT human-readable label for the sector badge (max 3 words). Empty string if no industry specified.
+- industryKeywords: MAX 1 short industry keyword (e.g. "healthcare", "software", "hospitality", "finance"). Use simple common words only. Leave empty [] if no industry specified or multiple unrelated industries requested.
+- sectorLabel: a SHORT human-readable label for the sector badge (max 3 words). Empty string if no industry or multiple industries.
 - explanation: one sentence describing what will be searched"""
 
     response = client.messages.create(
@@ -46,29 +45,23 @@ Rules:
     return json.loads(text.strip())
 
 
-def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10, city=''):
-    # Apollo requires array params in URL query string, not JSON body
+def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10, city=""):
     parts = []
     for title in job_titles:
         parts.append(f"person_titles[]={requests.utils.quote(title)}")
-    if country:
-        if city:
-            parts.append(f"person_locations[]={requests.utils.quote(city + ", " + country)}")
-        else:
-            parts.append(f"person_locations[]={requests.utils.quote(country)}")
-    # q_keywords removed - titles + location filter is sufficient
+    if city:
+        parts.append(f"person_locations[]={requests.utils.quote(city + ', ' + country)}")
+    elif country:
+        parts.append(f"person_locations[]={requests.utils.quote(country)}")
+    if industry_keywords:
+        parts.append(f"q_keywords={requests.utils.quote(industry_keywords[0])}")
     parts.append(f"per_page={per_page}")
     parts.append(f"page={page}")
 
     url = f"{APOLLO_BASE}/mixed_people/api_search?{'&'.join(parts)}"
-
     r = requests.post(
         url,
-        headers={
-            "x-api-key": api_key,
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache",
-        },
+        headers={"x-api-key": api_key, "Content-Type": "application/json", "Cache-Control": "no-cache"},
         timeout=30
     )
     if r.status_code == 200:
@@ -77,18 +70,10 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
 
 
 def apollo_enrich(api_key, person_id, want_phone=False):
-    payload = {
-        "id": person_id,
-        "reveal_personal_emails": False,
-        "reveal_phone_number": want_phone,
-    }
+    payload = {"id": person_id, "reveal_personal_emails": False, "reveal_phone_number": want_phone}
     r = requests.post(
         f"{APOLLO_BASE}/people/match",
-        headers={
-            "x-api-key": api_key,
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache",
-        },
+        headers={"x-api-key": api_key, "Content-Type": "application/json", "Cache-Control": "no-cache"},
         json=payload,
         timeout=30
     )
@@ -98,7 +83,6 @@ def apollo_enrich(api_key, person_id, want_phone=False):
 
 
 def apollo_bulk_enrich(api_key, person_ids, want_phone=False):
-    """Enrich up to 10 people in one API call."""
     details = [{"id": pid, "reveal_personal_emails": False, "reveal_phone_number": want_phone} for pid in person_ids]
     r = requests.post(
         f"{APOLLO_BASE}/people/bulk_match",
@@ -141,11 +125,7 @@ def index():
 
 @app.route("/api/health")
 def health():
-    return jsonify({
-        "status": "ok",
-        "anthropic_key": bool(ANTHROPIC_KEY),
-        "apollo_key": bool(APOLLO_KEY)
-    })
+    return jsonify({"status": "ok", "anthropic_key": bool(ANTHROPIC_KEY), "apollo_key": bool(APOLLO_KEY)})
 
 
 @app.route("/api/parse", methods=["POST"])
@@ -173,10 +153,14 @@ def search():
     industry_keywords = data.get("industryKeywords", [])
     country = data.get("country", "Australia")
     city = data.get("city", "")
-    max_contacts = min(int(data.get("maxContacts", 50)), 500)
+    max_contacts = min(int(data.get("maxContacts", 20)), 500)
     want_email = data.get("wantEmail", True)
     want_phone = data.get("wantPhone", False)
     sector_label = data.get("sectorLabel", "")
+
+    # Cap at 20 when enriching to avoid Vercel timeout
+    if (want_email or want_phone) and max_contacts > 20:
+        max_contacts = 20
 
     if not job_titles:
         return jsonify({"error": "No job titles provided"}), 400
@@ -240,7 +224,7 @@ def search():
             "sector": sector_label,
         })
 
-    return jsonify({"total": len(results), "contacts": results[:max_contacts]})
+    return jsonify({"total": len(results), "contacts": results})
 
 
 if __name__ == "__main__":
