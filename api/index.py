@@ -46,21 +46,16 @@ Rules:
 
 
 def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10):
-    params = {
-        "per_page": per_page,
-        "page": page,
-    }
-
+    # Build query string params — Apollo expects repeated array params in URL
+    params = []
     for title in job_titles:
-        params.setdefault("person_titles[]", [])
-        if isinstance(params["person_titles[]"], list):
-            params["person_titles[]"].append(title)
-
+        params.append(("person_titles[]", title))
     if country:
-        params["person_locations[]"] = [country]
-
+        params.append(("person_locations[]", country))
     if industry_keywords:
-        params["q_keywords"] = " ".join(industry_keywords)
+        params.append(("q_keywords", " ".join(industry_keywords)))
+    params.append(("per_page", per_page))
+    params.append(("page", page))
 
     r = requests.post(
         f"{APOLLO_BASE}/mixed_people/api_search",
@@ -69,7 +64,7 @@ def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_p
             "Content-Type": "application/json",
             "Cache-Control": "no-cache",
         },
-        json=params,
+        params=params,
         timeout=30
     )
     if r.status_code == 200:
