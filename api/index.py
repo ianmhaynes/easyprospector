@@ -208,3 +208,22 @@ def debug_enrich():
         json={"ids": [contact_id], "reveal": ["emails", "phones"]}, timeout=30
     )
     return jsonify({"status": r.status_code, "body": r.json()})
+
+@app.route("/api/debug_search", methods=["POST"])
+def debug_search():
+    payload = {
+        "pagination": {"page": 0, "size": 5},
+        "filters": {
+            "contacts": {"include": {
+                "jobTitles": ["CFO"],
+                "locations": [{"country": "Australia"}],
+            }},
+            "companies": {"include": {"mainIndustriesIds": [15]}}
+        }
+    }
+    r = requests.post(
+        f"{LUSHA_BASE}/v3/contacts/prospecting",
+        headers={"api_key": LUSHA_KEY, "Content-Type": "application/json"},
+        json=payload, timeout=30
+    )
+    return jsonify({"status": r.status_code, "body": r.json()})
