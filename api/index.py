@@ -193,7 +193,7 @@ def search():
                 })
                 count += 1
         if len(results) >= max_contacts: break
-    return jsonify({"total": len(results), "contacts": results[:max_contacts]})
+    return jsonify({"total": len(results), "contacts": results[:max_contacts], "debug": debug_log})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
