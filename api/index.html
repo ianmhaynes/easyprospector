@@ -133,8 +133,12 @@ textarea.nl-input::placeholder{color:#98A2B3}
       </div>
     </div>
 
-    <div class="or-divider">or select manually</div>
+    <div style="display:flex;gap:8px;margin:16px 0">
+      <button id="mode-ai" onclick="setMode('ai')" style="flex:1;height:38px;border-radius:8px;border:2px solid var(--blue);background:var(--blue);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">✦ AI search</button>
+      <button id="mode-manual" onclick="setMode('manual')" style="flex:1;height:38px;border-radius:8px;border:2px solid var(--border);background:#fff;color:var(--text-secondary);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">⚙ Manual</button>
+    </div>
 
+    <div id="manual-section" style="display:none">
     <div class="card">
       <div class="card-label" style="margin-bottom:10px">Industries</div>
       <div class="toggle-group" id="sector-toggles">
@@ -191,6 +195,7 @@ textarea.nl-input::placeholder{color:#98A2B3}
         </div>
       </div>
 
+    </div>
       <div class="estimate-bar">
         <div style="display:flex;align-items:baseline">
           <div class="est-num" id="est-num">~150</div>
@@ -272,7 +277,7 @@ document.getElementById('key-modal').addEventListener('click',e=>{
 });
 
 document.querySelectorAll('.toggle').forEach(t=>{
-  t.addEventListener('click',()=>{t.classList.toggle('active');parsedData=null;updateEstimate();});
+  t.addEventListener('click',()=>{t.classList.toggle('active');updateEstimate();});
 });
 
 function getSelected(id){
@@ -337,6 +342,25 @@ function clearParsed(){
   parsedData=null;
   document.getElementById('parsed-box').style.display='none';
   document.getElementById('nl-input').value='';
+  updateEstimate();
+}
+
+function setMode(mode){
+  const aiBtn=document.getElementById('mode-ai');
+  const manualBtn=document.getElementById('mode-manual');
+  const manualSection=document.getElementById('manual-section');
+  const aiSection=document.getElementById('parsed-box');
+  if(mode==='ai'){
+    aiBtn.style.background='var(--blue)';aiBtn.style.color='#fff';aiBtn.style.borderColor='var(--blue)';
+    manualBtn.style.background='#fff';manualBtn.style.color='var(--text-secondary)';manualBtn.style.borderColor='var(--border)';
+    manualSection.style.display='none';
+  } else {
+    parsedData=null;
+    manualBtn.style.background='var(--blue)';manualBtn.style.color='#fff';manualBtn.style.borderColor='var(--blue)';
+    aiBtn.style.background='#fff';aiBtn.style.color='var(--text-secondary)';aiBtn.style.borderColor='var(--border)';
+    manualSection.style.display='block';
+    if(aiSection)aiSection.style.display='none';
+  }
   updateEstimate();
 }
 
