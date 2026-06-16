@@ -484,7 +484,7 @@ async function runSearch(){
 
   if(parsedData){
     jobTitles=parsedData.jobTitles||[];
-    sectorLabel=parsedData.sectorLabel||parsedData.explanation||'custom search';
+    sectorLabel=parsedData.sectorLabel||'Custom search';
 
     // Merge adv-keywords with parsed keywords
     const advKw=document.getElementById('adv-keywords').value.trim();
