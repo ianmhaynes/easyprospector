@@ -189,8 +189,8 @@ def search():
                 continue
             seen.add(pid)
 
-            # Always enrich to get full name, linkedin, city, email, phone
-            enriched = apollo_enrich(api_key, pid, want_phone=want_phone)
+            # Only enrich if email/phone needed — avoids timeout on large searches
+            enriched = apollo_enrich(api_key, pid, want_phone=want_phone) if (want_email or want_phone) else {}
 
             first = enriched.get("first_name", "") or p.get("first_name", "")
             last = enriched.get("last_name", "")
@@ -199,17 +199,18 @@ def search():
             email = extract_email(enriched) if want_email else ""
             phone = extract_phone(enriched) if want_phone else ""
 
+            org = enriched.get("organization") or p.get("organization") or {}
             results.append({
                 "id": pid,
                 "name": name,
                 "title": enriched.get("title", "") or p.get("title", ""),
-                "company": enriched.get("organization_name", "") or (enriched.get("organization") or {}).get("name", "") or p.get("organization", {}).get("name", ""),
-                "domain": (enriched.get("organization") or {}).get("website_url", ""),
+                "company": enriched.get("organization_name", "") or org.get("name", ""),
+                "domain": org.get("website_url", ""),
                 "email": email,
                 "phone": phone,
-                "linkedin": enriched.get("linkedin_url", ""),
-                "city": enriched.get("city", ""),
-                "country": enriched.get("country", country),
+                "linkedin": enriched.get("linkedin_url", "") or p.get("linkedin_url", ""),
+                "city": enriched.get("city", "") or p.get("city", ""),
+                "country": enriched.get("country", "") or p.get("country", country),
                 "sector": sector_label,
             })
 
