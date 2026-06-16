@@ -212,7 +212,7 @@ def debug_enrich():
 @app.route("/api/debug_search", methods=["POST"])
 def debug_search():
     payload = {
-        "pagination": {"page": 0, "size": 5},
+        "pagination": {"page": 0, "size": 10},
         "filters": {
             "contacts": {"include": {
                 "jobTitles": ["CFO"],
