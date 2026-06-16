@@ -175,7 +175,7 @@ def search():
                 cid = c.get("id") or c.get("contactId") or str(c.get("personId", ""))
                 if not cid or cid in seen: continue
                 seen.add(cid)
-                name = c.get("name", "")
+                name = c.get("fullName") or (c.get("firstName", "") + " " + c.get("lastName", "")).strip()
                 email = ""
                 phone = ""
                 if want_email or want_phone:
@@ -195,7 +195,7 @@ def search():
                 })
                 count += 1
         if len(results) >= max_contacts: break
-    return jsonify({"total": len(results), "contacts": results[:max_contacts], "debug": debug_log})
+    return jsonify({"total": len(results), "contacts": results[:max_contacts]})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
