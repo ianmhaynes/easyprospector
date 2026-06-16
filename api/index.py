@@ -158,9 +158,6 @@ def search():
     want_phone = data.get("wantPhone", False)
     sector_label = data.get("sectorLabel", "")
 
-    # Cap at 20 when enriching to avoid Vercel timeout
-    if (want_email or want_phone) and max_contacts > 20:
-        max_contacts = 20
 
     if not job_titles:
         return jsonify({"error": "No job titles provided"}), 400
