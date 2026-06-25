@@ -28,7 +28,7 @@ Return ONLY valid JSON with no explanation or markdown:
 
 Rules:
 - jobTitles: include both abbreviated and full versions (e.g. "CMO" AND "Chief Marketing Officer")
-- industryKeywords: MAX 1 short industry keyword (e.g. "healthcare", "software", "hospitality", "finance"). Use simple common words only. Leave empty [] if no industry specified or multiple unrelated industries requested.
+- industryKeywords: 2-4 related industry/organization tags that describe the SAME industry in different common phrasings (e.g. for quick-service restaurants: ["restaurants", "fast food", "quick service restaurant"]; for healthcare: ["healthcare", "hospital", "medical"]). Avoid niche acronyms (e.g. avoid "QSR") since they rarely match company data literally — use the spelled-out everyday terms instead. Leave empty [] if no industry specified or multiple unrelated industries requested.
 - sectorLabel: a SHORT human-readable label for the sector badge (max 3 words). Empty string if no industry or multiple industries.
 - explanation: one sentence describing what will be searched"""
 
@@ -45,23 +45,27 @@ Rules:
     return json.loads(text.strip())
 
 
-def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10, city=""):
-    parts = []
-    for title in job_titles:
-        parts.append(f"person_titles[]={requests.utils.quote(title)}")
-    if city:
-        parts.append(f"person_locations[]={requests.utils.quote(city + ', ' + country)}")
-    elif country:
-        parts.append(f"person_locations[]={requests.utils.quote(country)}")
-    if industry_keywords:
-        parts.append(f"q_keywords={requests.utils.quote(industry_keywords[0])}")
-    parts.append(f"per_page={per_page}")
-    parts.append(f"page={page}")
 
-    url = f"{APOLLO_BASE}/mixed_people/api_search?{'&'.join(parts)}"
+
+
+def apollo_search(api_key, job_titles, industry_keywords, country, page=1, per_page=10, city=""):
+    payload = {
+        "person_titles": job_titles,
+        "per_page": per_page,
+        "page": page,
+    }
+    if city:
+        payload["person_locations"] = [f"{city}, {country}"]
+    elif country:
+        payload["person_locations"] = [country]
+    if industry_keywords:
+        payload["q_organization_keyword_tags"] = industry_keywords
+
+    url = f"{APOLLO_BASE}/mixed_people/api_search"
     r = requests.post(
         url,
         headers={"x-api-key": api_key, "Content-Type": "application/json", "Cache-Control": "no-cache"},
+        json=payload,
         timeout=30
     )
     if r.status_code == 200:
